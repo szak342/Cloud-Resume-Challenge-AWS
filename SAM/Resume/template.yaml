@@ -1,0 +1,142 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  Resume
+
+  Sample SAM Template for Resume
+
+Globals:
+  Function:
+    Timeout: 3
+    Tracing: Active
+  Api:
+    TracingEnabled: true
+
+Parameters:
+  IndexDocument:
+    Type: String
+    Description: "The index document"
+    Default: "index.html"
+
+  CloudFrontPriceClass:
+    Type: String
+    Description: "The price class for CloudFront distribution"
+    Default: "PriceClass_100"
+    AllowedValues:
+      - PriceClass_100
+      - PriceClass_200
+      - PriceClass_All
+
+Resources:
+  ResumeTable:
+    Type: AWS::Serverless::SimpleTable
+    PrimaryKey:
+      Name: id
+      Type: Int
+
+  s3resumebucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      AccessControl: 'Private'
+      BucketName: !Sub 'cf-simple-s3-origin-${AWS::StackName}-${AWS::AccountId}'
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+
+  BucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref s3resumebucket
+      PolicyDocument:
+        Statement:
+          - Effect: "Allow"
+            Action: 
+              - "s3:GetObject"
+            Resource: !Sub ${s3resumebucket.Arn}/*
+            Principal:
+              AWS: !Sub 'arn:aws:iam::cloudfront:user/CloudFront Origin Access Identity ${CfOriginAccessIdentity}'
+  
+  ResumeReadFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: resume_read/
+      Handler: app.lambda_handler
+      Runtime: python3.11
+      Architectures:
+      - x86_64
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName: !Ref ResumeTable
+      Events:
+        ResumeAPI:
+          Type: Api
+          Properties:
+            Path: /read
+            Method: get
+  
+  ResumeCloudFrontDistro:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        Comment: 'A simple distribution with an S3 origin'
+        DefaultCacheBehavior:
+          AllowedMethods:
+            - 'HEAD'
+            - 'GET'
+          CachedMethods:
+            - 'HEAD'
+            - 'GET'
+          Compress: false
+          DefaultTTL: 0
+          ForwardedValues:
+            Cookies:
+              Forward: 'none'
+            Headers:
+              - 'Origin'
+            QueryString: false
+          MaxTTL: 0
+          MinTTL: 0
+          TargetOriginId: !Sub 's3-origin-${s3resumebucket}'
+          ViewerProtocolPolicy: 'redirect-to-https'
+        Enabled: true
+        DefaultRootObject: !Ref IndexDocument
+        HttpVersion: 'http2'
+        IPV6Enabled: false
+
+        Origins:
+          - DomainName: !Join
+            - '.'
+            - - !Ref s3resumebucket
+              - s3
+              - !Ref AWS::Region
+              - amazonaws.com
+            Id: !Sub 's3-origin-${s3resumebucket}'
+            OriginPath: ''
+            S3OriginConfig:
+              OriginAccessIdentity: !Sub 'origin-access-identity/cloudfront/${CfOriginAccessIdentity}'
+        PriceClass: !Ref CloudFrontPriceClass
+  
+  CfOriginAccessIdentity:
+    Metadata:
+      Comment: 'Access S3 bucket content only through CloudFront'
+    Properties:
+      CloudFrontOriginAccessIdentityConfig:
+        Comment: 'Access S3 bucket content only through CloudFront'
+    Type: 'AWS::CloudFront::CloudFrontOriginAccessIdentity'
+
+  ApplicationResourceGroup:
+    Type: AWS::ResourceGroups::Group
+    Properties:
+      Name:
+        Fn::Sub: ApplicationInsights-SAM-${AWS::StackName}
+      ResourceQuery:
+        Type: CLOUDFORMATION_STACK_1_0
+    
+  ApplicationInsightsMonitoring:
+    Type: AWS::ApplicationInsights::Application
+    Properties:
+      ResourceGroupName:
+        Ref: ApplicationResourceGroup
+      AutoConfigurationEnabled: 'true'

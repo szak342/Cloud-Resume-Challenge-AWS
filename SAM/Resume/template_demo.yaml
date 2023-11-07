@@ -1,0 +1,123 @@
+    AWSTemplateFormatVersion: '2010-09-09'
+    Transform: AWS::Serverless-2016-10-31
+    Description: >
+      Resume
+    
+      Sample SAM Template for Resume
+    
+    # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+    Globals:
+      Function:
+        Timeout: 3
+        Tracing: Active
+      Api:
+        TracingEnabled: true
+    
+    Resources:
+
+      ResumeTable:
+        Type: AWS::Serverless::SimpleTable
+        PrimaryKey:
+          Name: id
+          Type: Int
+
+      ResumeReadFunction:
+        Type: AWS::Serverless::Function
+        Properties:
+          CodeUri: resume_read/
+          Handler: app.lambda_handler
+          Runtime: python3.11
+          Architectures:
+          - x86_64
+          Policies:
+            - DynamoDBReadPolicy:
+                TableName: !Ref ResumeTable
+          Events:
+            ResumeAPI:
+              Type: Api
+              Properties:
+                Path: /read
+                Method: get
+
+      ResumeCloudFrontDistro:
+        Type: AWS::CloudFront::Distribution
+        Properties:
+          DistributionConfig:
+          Comment: 'A simple distribution with an S3 origin'
+          DefaultCacheBehavior:
+            AllowedMethods:
+              - 'HEAD'
+              - 'GET'
+            CachedMethods:
+              - 'HEAD'
+              - 'GET'
+            Compress: false
+            DefaultTTL: 86400
+            ForwardedValues:
+              Cookies:
+                Forward: 'none'
+              Headers:
+                - 'Origin'
+              QueryString: false
+            MaxTTL: 31536000
+            MinTTL: 86400
+            TargetOriginId: !Sub 's3-origin-${S3Bucket}'
+            ViewerProtocolPolicy: 'redirect-to-https'
+        Origins:
+          - DomainName: !GetAtt S3ResumeBucket.DomainName
+            Id: !Sub 's3-origin-${S3Bucket}'
+            OriginPath: ''
+            S3OriginConfig:
+              OriginAccessIdentity: !Sub 'origin-access-identity/cloudfront/${CfOriginAccessIdentity}'
+        PriceClass: 'PriceClass_All'
+      
+      S3ResumeBucket:
+        Type: AWS::S3::Bucket
+        Properties:
+          AccessControl: 'Private'
+          BucketName: !Sub 'cf-simple-s3-origin-${AWS::StackName}-${AWS::AccountId}'
+      
+      ResumeBucketPolicy:
+        Type: AWS::S3::BucketPolicy
+        Properties:
+          Bucket: !Ref S3ResumeBucket
+          PolicyDocument:
+            Version: 2008-10-17
+            Statement:
+              - Action:
+                  - 's3:GetObject'
+                Effect: Allow
+                Resource: !Join
+                  - ''
+                  - - 'arn:aws:s3:::'
+                    - !Ref S3ResumeBucket
+                    - /*
+                Principal: '*'  
+
+      ApplicationResourceGroup:
+        Type: AWS::ResourceGroups::Group
+        Properties:
+          Name:
+            Fn::Sub: ApplicationInsights-SAM-${AWS::StackName}
+          ResourceQuery:
+            Type: CLOUDFORMATION_STACK_1_0
+    
+      ApplicationInsightsMonitoring:
+        Type: AWS::ApplicationInsights::Application
+        Properties:
+          ResourceGroupName:
+            Ref: ApplicationResourceGroup
+          AutoConfigurationEnabled: 'true'
+    
+    Outputs:
+      ResumeAPI:
+        Description: API Gateway endpoint URL for Prod stage for ResumeReadFunction function
+        Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello/"
+    
+      ResumeReadFunction:
+        Description: ResumeReadFunction Lambda Function ARN
+        Value: !GetAtt ResumeReadFunction.Arn
+    
+      ResumeReadFunctionIamRole:
+        Description: Implicit IAM Role created for ResumeReadFunction function
+        Value: !GetAtt ResumeReadFunctionRole.Arn
