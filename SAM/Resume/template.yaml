@@ -35,7 +35,7 @@ Parameters:
 
 Resources:
 
-  Deployment:  # Need Fix
+  Deployment:  # Right now this dont do anything, need research. For now "Events" on Function fixing it
     Type: AWS::ApiGateway::Deployment
     DependsOn: 
       - APIMethod
@@ -80,7 +80,7 @@ Resources:
             Principal:
               AWS: !Sub 'arn:aws:iam::cloudfront:user/CloudFront Origin Access Identity ${CfOriginAccessIdentity}'
   
-  ResumeReadFunction:
+  ResumeReadFunction: # Code need to be changed for connection with Database
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: resume_read/
@@ -88,7 +88,7 @@ Resources:
       Runtime: python3.11
       Architectures:
       - x86_64
-      Events:
+      Events: # Without this redundant event code wont deploy even with "DependsOn" parameter, need fixing
         ResumeAPI:
           Type: Api
           Properties:
@@ -114,12 +114,12 @@ Resources:
         IntegrationResponses:
           - StatusCode: 200
             ResponseParameters:
-              method.response.header.Access-Control-Allow-Origin: "'*'"
+              method.response.header.Access-Control-Allow-Origin: "'*'" #This need to be changed to domain at final stages
       HttpMethod: GET
       MethodResponses: 
         - StatusCode: 200
           ResponseParameters:
-            method.response.header.Access-Control-Allow-Origin: true
+            method.response.header.Access-Control-Allow-Origin: true 
       RestApiId: !Ref ResumeApi
       ResourceId: !Ref DataResource
 
@@ -166,7 +166,7 @@ Resources:
               OriginAccessIdentity: !Sub 'origin-access-identity/cloudfront/${CfOriginAccessIdentity}'
         PriceClass: !Ref CloudFrontPriceClass
   
-  MyConnector:
+  MyConnector: # Connecting Function from method with API
     Type: AWS::Serverless::Connector
     Properties:
       Source: 
