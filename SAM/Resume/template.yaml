@@ -12,7 +12,13 @@ Globals:
   Api:
     TracingEnabled: true
 
+
+
 Parameters:
+  Stage:
+    Type: String
+    Default: dev
+  
   IndexDocument:
     Type: String
     Description: "The index document"
@@ -28,6 +34,22 @@ Parameters:
       - PriceClass_All
 
 Resources:
+
+  Deployment:  # Need Fix
+    Type: AWS::ApiGateway::Deployment
+    DependsOn: 
+      - APIMethod
+    Properties:
+      RestApiId: !Ref ResumeApi
+      StageName: !Ref Stage
+
+  ResumeApi:
+    Type: AWS::Serverless::Api
+    EndpointConfiguration:
+      Type: REGIONAL
+    Properties:
+      StageName: !Ref Stage
+
   ResumeTable:
     Type: AWS::Serverless::SimpleTable
     PrimaryKey:
@@ -66,16 +88,42 @@ Resources:
       Runtime: python3.11
       Architectures:
       - x86_64
-      Policies:
-        - DynamoDBReadPolicy:
-            TableName: !Ref ResumeTable
       Events:
         ResumeAPI:
           Type: Api
           Properties:
-            Path: /read
+            RestApiId: !Ref ResumeApi
+            Path: /test
             Method: get
   
+  DataResource:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      ParentId: !GetAtt ResumeApi.RootResourceId
+      RestApiId: !Ref ResumeApi
+      PathPart: data
+
+  APIMethod:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      AuthorizationType: NONE
+      Integration:
+        IntegrationHttpMethod: POST
+        Uri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${ResumeReadFunction.Arn}/invocations
+        Type: AWS
+        IntegrationResponses:
+          - StatusCode: 200
+            ResponseParameters:
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+      HttpMethod: GET
+      MethodResponses: 
+        - StatusCode: 200
+          ResponseParameters:
+            method.response.header.Access-Control-Allow-Origin: true
+      RestApiId: !Ref ResumeApi
+      ResourceId: !Ref DataResource
+
+
   ResumeCloudFrontDistro:
     Type: AWS::CloudFront::Distribution
     Properties:
@@ -118,6 +166,20 @@ Resources:
               OriginAccessIdentity: !Sub 'origin-access-identity/cloudfront/${CfOriginAccessIdentity}'
         PriceClass: !Ref CloudFrontPriceClass
   
+  MyConnector:
+    Type: AWS::Serverless::Connector
+    Properties:
+      Source: 
+        Type: AWS::Serverless::Api
+        ResourceId: !Ref ResumeApi
+        Qualifier: '*'
+      Destination:
+        Type: AWS::Serverless::Function
+        Arn: !GetAtt ResumeReadFunction.Arn
+      Permissions:
+        - Write
+
+
   CfOriginAccessIdentity:
     Metadata:
       Comment: 'Access S3 bucket content only through CloudFront'
