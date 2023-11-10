@@ -12,8 +12,6 @@ Globals:
   Api:
     TracingEnabled: true
 
-
-
 Parameters:
   Stage:
     Type: String
@@ -95,7 +93,15 @@ Resources:
             RestApiId: !Ref ResumeApi
             Path: /test
             Method: get
-  
+    Connectors: # Function -> DynamoDB Connector
+      ResumeTableConnector:
+        Properties:
+          Destination:
+            Id: ResumeTable
+          Permissions:
+            - Read
+            - Write
+
   DataResource:
     Type: AWS::ApiGateway::Resource
     Properties:
@@ -114,7 +120,7 @@ Resources:
         IntegrationResponses:
           - StatusCode: 200
             ResponseParameters:
-              method.response.header.Access-Control-Allow-Origin: "'*'" #This need to be changed to domain at final stages
+              method.response.header.Access-Control-Allow-Origin: !Sub "'https://${ResumeCloudFrontDistro.DomainName}'" # CloudFront domain name (need "https://"), need change for my domain name in Route53
       HttpMethod: GET
       MethodResponses: 
         - StatusCode: 200
@@ -137,13 +143,13 @@ Resources:
             - 'HEAD'
             - 'GET'
           Compress: false
-          DefaultTTL: 0
           ForwardedValues:
             Cookies:
               Forward: 'none'
             Headers:
               - 'Origin'
             QueryString: false
+          DefaultTTL: 0 # TTL Cache set to 0 for development
           MaxTTL: 0
           MinTTL: 0
           TargetOriginId: !Sub 's3-origin-${s3resumebucket}'
@@ -166,7 +172,7 @@ Resources:
               OriginAccessIdentity: !Sub 'origin-access-identity/cloudfront/${CfOriginAccessIdentity}'
         PriceClass: !Ref CloudFrontPriceClass
   
-  MyConnector: # Connecting Function from method with API
+  ApiLambdaConnector: # Connecting Function from method with API
     Type: AWS::Serverless::Connector
     Properties:
       Source: 
@@ -178,7 +184,6 @@ Resources:
         Arn: !GetAtt ResumeReadFunction.Arn
       Permissions:
         - Write
-
 
   CfOriginAccessIdentity:
     Metadata:
@@ -202,3 +207,8 @@ Resources:
       ResourceGroupName:
         Ref: ApplicationResourceGroup
       AutoConfigurationEnabled: 'true'
+
+Outputs:
+  ApiGetUrl:
+    Description: "Api url for Lambda function"
+    Value: !Ref ResumeApi

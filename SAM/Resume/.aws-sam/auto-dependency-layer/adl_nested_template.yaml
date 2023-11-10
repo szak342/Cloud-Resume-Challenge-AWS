@@ -1,0 +1,22 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: AWS SAM CLI Nested Stack for Auto Dependency Layer Creation
+Metadata:
+  SamCliInfo: 1.101.0
+  key: AWS SAM CLI sync command
+Outputs:
+  ResumeReadFunction981b9856DepLayer:
+    Value:
+      Ref: ResumeReadFunction981b9856DepLayer
+Resources:
+  ResumeReadFunction981b9856DepLayer:
+    Metadata:
+      CreatedBy: AWS SAM CLI sync command
+    Properties:
+      CompatibleRuntimes:
+      - python3.11
+      ContentUri: D:\AWS\SAM_resume_template\SAM\Resume\.aws-sam\auto-dependency-layer\ResumeReadFunction981b9856DepLayer
+      Description: Auto created layer for dependencies of function ResumeReadFunction
+      LayerName: resume69f2afc2-ResumeReadFunction981b9856-DepLayer
+      RetentionPolicy: Delete
+    Type: AWS::Serverless::LayerVersion
+Transform: AWS::Serverless-2016-10-31
