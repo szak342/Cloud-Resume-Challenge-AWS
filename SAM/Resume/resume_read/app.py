@@ -23,14 +23,14 @@ def add_visitor(x):
     data = client.put_item(TableName=table,Item=data)
 
 def check_if_counter_exist():
-    if COUNTER = False
-    try:
-        item = {'id':{'S':"Counter"}}
-        data = client.get_item(TableName=table,Key=item)
-        COUNTER = True
-        #print(data["Item"]["count"]["N"])
-    except:
-        data = client.put_item(TableName=table,Item=data)
+    if COUNTER == False:
+        try:
+            item = {'id':{'S':"Counter"}}
+            data = client.get_item(TableName=table,Key=item)
+            COUNTER = True
+            #print(data["Item"]["count"]["N"])
+        except:
+            data = client.put_item(TableName=table,Item=data)
         
 
 def lambda_handler(event, context):
