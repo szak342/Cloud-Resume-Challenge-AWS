@@ -125,7 +125,7 @@ Resources:
         - StatusCode: 200
           ResponseParameters:
             method.response.header.Access-Control-Allow-Origin:
-              Fn::Sub: '''${ResumeCloudFrontDistro.DomainName}'''
+              Fn::Sub: '''https://${ResumeCloudFrontDistro.DomainName}'''
       HttpMethod: GET
       MethodResponses:
       - StatusCode: 200
@@ -148,13 +148,13 @@ Resources:
           - HEAD
           - GET
           Compress: false
-          DefaultTTL: 0
           ForwardedValues:
             Cookies:
               Forward: none
             Headers:
             - Origin
             QueryString: false
+          DefaultTTL: 0
           MaxTTL: 0
           MinTTL: 0
           TargetOriginId:
