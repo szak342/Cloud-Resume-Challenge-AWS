@@ -7,36 +7,36 @@ COUNTER = False
 
 class DataObject():
     def __init__(self) -> None:
+        self.COUNTER = False
         pass
         
-    def return_data():
+    def return_data(self):
         return {
             "statusCode": 200,
             "body": json.dumps({
                 "message": "hello world2"
             })}
 
-    def create_new_counter():
+    def create_new_counter(self):
         item = {'id':{'S':"Counter"}, "count":{"N", "1"}}
-        data = client.put_item(TableName=table,Item=data)
+        data = client.put_item(TableName=table,Item=item)
 
-
-
-    def add_visitor(x):
+    def add_visitor(self, x):
         x = int(x) + 1
         item = {'id':{'S':"Counter"}, "count":{"N", str(int(x) + 1)}}
-        data = client.put_item(TableName=table,Item=data)
+        data = client.put_item(TableName=table,Item=item)
 
-    def check_if_counter_exist():
-        print("test")
-        if COUNTER == False:
-            try:
-                item = {'id':{'S':"Counter"}}
-                data = client.get_item(TableName=table,Key=item)
-                COUNTER = True
-                #print(data["Item"]["count"]["N"])
-            except:
-                data = client.put_item(TableName=table,Item=data)
+    def get_item(self):
+        item = {'id':{'S':"Counter"}}
+        data = client.get_item(TableName=table,Key=item)
+        return data["Item"]["count"]["N"]
+
+    def check_if_counter_exist(self):
+        try:
+            x = self.get_item()
+            COUNTER = True
+        except:
+            self.create_new_counter(self)
 
 dbconnector = DataObject()    
 
