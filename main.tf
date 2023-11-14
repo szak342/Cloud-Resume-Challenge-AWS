@@ -84,13 +84,14 @@ resource "aws_cloudfront_distribution" "resume_cf_distribution" {
 
     forwarded_values {
       query_string = false
+      headers = ["Origin"]
 
       cookies {
         forward = "none"
       }
     }
 
-    viewer_protocol_policy = "allow-all" # Dev settings
+    viewer_protocol_policy = "redirect-to-https" # Dev settings
     min_ttl                = 0
     default_ttl            = 0
     max_ttl                = 0
@@ -100,8 +101,7 @@ resource "aws_cloudfront_distribution" "resume_cf_distribution" {
 
   restrictions {
     geo_restriction {
-      restriction_type = "whitelist"
-      locations        = ["US", "CA", "GB", "DE", "PL"]
+      restriction_type = "none"
     }
   }
 
@@ -136,4 +136,101 @@ data "aws_iam_policy_document" "allow_access_from_cloud_front" {
       values = [aws_cloudfront_distribution.resume_cf_distribution.arn]
     }
   }
+}
+
+#resource "aws_lambda_function" "resume-lambda" {
+#  function_name = "app.py"
+#
+#  # The bucket name as created earlier with "aws s3api create-bucket"
+#  # s3_bucket = "terraform-serverless-example"
+#  # s3_key    = "v1.0.0/example.zip"
+#
+#  # "main" is the filename within the zip file (main.js) and "handler"
+#  # is the name of the property under which the handler function was
+#  # exported in that file.
+#  handler = "app.lambda_handler"
+#  runtime = "python3.11"
+#
+#  role = "${aws_iam_role.lambda_exec.arn}"
+#}
+
+# IAM role which dictates what other AWS services the Lambda function
+# may access.
+#resource "aws_iam_role" "lambda_exec" {
+#  name = "serverless_example_lambda"
+#
+#  assume_role_policy = <<EOF
+#{
+#  "Version": "2012-10-17",
+#  "Statement": [
+#    {
+#      "Action": "sts:AssumeRole",
+#      "Principal": {
+#        "Service": "lambda.amazonaws.com"
+#      },
+#      "Effect": "Allow",
+#      "Sid": ""
+#    }
+#  ]
+#}
+#EOF
+#}
+
+resource "aws_api_gateway_rest_api" "resume-api" {
+  name        = "resume-api"
+  description = "Terraform resume-api"
+}
+
+resource "aws_api_gateway_resource" "api-resource" {
+  rest_api_id = "${aws_api_gateway_rest_api.resume-api.id}"
+  parent_id   = "${aws_api_gateway_rest_api.resume-api.root_resource_id}"
+  path_part   = "dev"
+}
+
+resource "aws_api_gateway_method" "api-method" {
+  rest_api_id   = "${aws_api_gateway_rest_api.resume-api.id}"
+  resource_id   = "${aws_api_gateway_resource.api-resource.id}"
+  http_method   = "GET"
+  authorization = "NONE"
+}
+
+resource "aws_api_gateway_method_response" "options_200" {
+    rest_api_id   = "${aws_api_gateway_rest_api.resume-api.id}"
+    resource_id   = "${aws_api_gateway_resource.api-resource.id}"
+    http_method   = "${aws_api_gateway_method.api-method.http_method}"
+    status_code   = "200"
+    response_parameters = {
+        "method.response.header.Access-Control-Allow-Origin" = true
+    }
+    depends_on = [aws_api_gateway_method.api-method]
+}
+
+resource "aws_api_gateway_integration" "options_integration" {
+    rest_api_id   = "${aws_api_gateway_rest_api.resume-api.id}"
+    resource_id   = "${aws_api_gateway_resource.api-resource.id}"
+    http_method   = "${aws_api_gateway_method.api-method.http_method}"
+    type          = "MOCK"
+    request_templates = {
+    "application/json" = jsonencode(
+      {
+        statusCode = 200
+      })}
+    depends_on = [aws_api_gateway_method.api-method]
+}
+
+resource "aws_api_gateway_integration_response" "options_integration_response" {
+    rest_api_id   = "${aws_api_gateway_rest_api.resume-api.id}"
+    resource_id   = "${aws_api_gateway_resource.api-resource.id}"
+    http_method   = "${aws_api_gateway_method.api-method.http_method}"
+    status_code   = "${aws_api_gateway_method_response.options_200.status_code}"
+    response_parameters = {
+        "method.response.header.Access-Control-Allow-Origin" = "'https://${aws_cloudfront_distribution.resume_cf_distribution.domain_name}'"
+    }
+    depends_on = [aws_api_gateway_method_response.options_200]
+}
+
+resource "aws_api_gateway_deployment" "deployment" {
+    rest_api_id   = "${aws_api_gateway_rest_api.resume-api.id}"
+    stage_name    = "Dev"
+    depends_on    = [aws_api_gateway_integration.options_integration]
 }
