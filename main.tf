@@ -2,7 +2,7 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 4.16"
+      version = "~> 5.24.0"        # Fixed terraform version
     }
   }
 
@@ -29,6 +29,14 @@ resource "aws_s3_bucket" "resume-bucket" {
         Name = "resume-bucket"
         Environment = "Dev"
     }
+}
+
+resource "aws_s3_object" "webpage" {
+  for_each = fileset("./webpage/", "*")
+  bucket = aws_s3_bucket.resume-bucket.id
+  key = each.value
+  source = "./webpage/${each.value}"
+  content_type = "text/html"
 }
 
 #resource "aws_s3_bucket_acl" "resume_bucket_acl" {
@@ -71,8 +79,8 @@ resource "aws_cloudfront_distribution" "resume_cf_distribution" {
   }
 
   enabled             = true
-  is_ipv6_enabled     = true
-  comment             = "Some comment"
+  is_ipv6_enabled     = false
+  comment             = "Terraform Cloud Front Distribution"
   default_root_object = "index.html"
 
   #aliases = ["mysite.example.com", "yoursite.example.com"]
@@ -138,43 +146,50 @@ data "aws_iam_policy_document" "allow_access_from_cloud_front" {
   }
 }
 
-#resource "aws_lambda_function" "resume-lambda" {
-#  function_name = "app.py"
-#
-#  # The bucket name as created earlier with "aws s3api create-bucket"
-#  # s3_bucket = "terraform-serverless-example"
-#  # s3_key    = "v1.0.0/example.zip"
-#
-#  # "main" is the filename within the zip file (main.js) and "handler"
-#  # is the name of the property under which the handler function was
-#  # exported in that file.
-#  handler = "app.lambda_handler"
-#  runtime = "python3.11"
-#
-#  role = "${aws_iam_role.lambda_exec.arn}"
-#}
+resource "aws_lambda_function" "resume-lambda" {
+  function_name = "resume-lambda"
 
-# IAM role which dictates what other AWS services the Lambda function
-# may access.
-#resource "aws_iam_role" "lambda_exec" {
-#  name = "serverless_example_lambda"
-#
-#  assume_role_policy = <<EOF
-#{
-#  "Version": "2012-10-17",
-#  "Statement": [
-#    {
-#      "Action": "sts:AssumeRole",
-#      "Principal": {
-#        "Service": "lambda.amazonaws.com"
-#      },
-#      "Effect": "Allow",
-#      "Sid": ""
-#    }
-#  ]
-#}
-#EOF
-#}
+  # The bucket name as created earlier with "aws s3api create-bucket"
+  s3_bucket = "main-bucket-28357"
+  s3_key    = "lambda/ResumeReadFunction.zip"
+
+  handler = "app.lambda_handler"
+  runtime = "python3.11"
+
+  role = "${aws_iam_role.lambda_exec.arn}"
+}
+
+resource "aws_iam_role" "lambda_exec" {
+  name = "serverless_example_lambda"
+
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "Service": "lambda.amazonaws.com"
+      },
+      "Effect": "Allow",
+      "Sid": ""
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_lambda_permission" "apigw" {
+  statement_id  = "AllowAPIGatewayInvoke"
+  action        = "lambda:InvokeFunction"
+  function_name = "${aws_lambda_function.resume-lambda.function_name}"
+  principal     = "apigateway.amazonaws.com"
+
+  # The /*/* portion grants access from any method on any resource
+  # within the API Gateway "REST API".
+  source_arn = "${aws_api_gateway_rest_api.resume-api.execution_arn}/*/*"
+}
+
 
 resource "aws_api_gateway_rest_api" "resume-api" {
   name        = "resume-api"
@@ -205,17 +220,24 @@ resource "aws_api_gateway_method_response" "options_200" {
     depends_on = [aws_api_gateway_method.api-method]
 }
 
-resource "aws_api_gateway_integration" "options_integration" {
+resource "aws_api_gateway_integration" "lambda" {
     rest_api_id   = "${aws_api_gateway_rest_api.resume-api.id}"
     resource_id   = "${aws_api_gateway_resource.api-resource.id}"
     http_method   = "${aws_api_gateway_method.api-method.http_method}"
-    type          = "MOCK"
-    request_templates = {
-    "application/json" = jsonencode(
-      {
-        statusCode = 200
-      })}
+    type          = "AWS"
+    integration_http_method = "POST"
+    uri = "${aws_lambda_function.resume-lambda.invoke_arn}"
     depends_on = [aws_api_gateway_method.api-method]
+}
+
+resource "aws_api_gateway_integration" "lambda_root" {
+  rest_api_id = "${aws_api_gateway_rest_api.resume-api.id}"
+  resource_id = "${aws_api_gateway_method.api-method.resource_id}"
+  http_method = "${aws_api_gateway_method.api-method.http_method}"
+
+  integration_http_method = "POST"
+  type                    = "AWS"
+  uri                     = "${aws_lambda_function.resume-lambda.invoke_arn}"
 }
 
 resource "aws_api_gateway_integration_response" "options_integration_response" {
@@ -232,5 +254,14 @@ resource "aws_api_gateway_integration_response" "options_integration_response" {
 resource "aws_api_gateway_deployment" "deployment" {
     rest_api_id   = "${aws_api_gateway_rest_api.resume-api.id}"
     stage_name    = "Dev"
-    depends_on    = [aws_api_gateway_integration.options_integration]
+    depends_on    = [aws_api_gateway_integration.lambda]
+}
+
+
+output "cloudfront_address" {
+  value = aws_cloudfront_distribution.resume_cf_distribution.domain_name
+}
+
+output "api_address" {
+  value = aws_api_gateway_deployment.deployment.invoke_url
 }
