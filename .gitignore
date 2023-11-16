@@ -1,1 +1,6 @@
 .terraform/
+scratch.tf
+resumelambda.zip
+sam-app/.aws-sam/
+sam-resume/
+backup

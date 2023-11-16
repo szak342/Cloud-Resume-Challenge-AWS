@@ -9,6 +9,14 @@ terraform {
   required_version = ">= 1.2.0"
 }
 
+resource "null_resource" "build-lambda" { # Building Lambda package from script
+
+ provisioner "local-exec" {
+
+    command = "/bin/bash script.sh"
+  }
+}
+
 data "aws_caller_identity" "current" {}
     output "account_id" {
     value = data.aws_caller_identity.current.account_id
@@ -38,11 +46,6 @@ resource "aws_s3_object" "webpage" {
   source = "./webpage/${each.value}"
   content_type = "text/html"
 }
-
-#resource "aws_s3_bucket_acl" "resume_bucket_acl" {
-# bucket = aws_s3_bucket.resume-bucket.id
-#  acl    = "private"
-#}
 
 resource "aws_s3_bucket_public_access_block" "block_public_access" {
   bucket = aws_s3_bucket.resume-bucket.id
@@ -74,7 +77,6 @@ resource "aws_cloudfront_distribution" "resume_cf_distribution" {
   origin {
     domain_name              = aws_s3_bucket.resume-bucket.bucket_regional_domain_name # ??
     origin_access_control_id = aws_cloudfront_origin_access_control.default.id
-    #origin_access_identity = aws_cloudfront_origin_access_identity.resume_cf.cloudfront_access_identity_path # ??
     origin_id                = aws_s3_bucket.resume-bucket.id
   }
 
@@ -99,7 +101,7 @@ resource "aws_cloudfront_distribution" "resume_cf_distribution" {
       }
     }
 
-    viewer_protocol_policy = "redirect-to-https" # Dev settings
+    viewer_protocol_policy = "redirect-to-https" # Dev settings, no cache
     min_ttl                = 0
     default_ttl            = 0
     max_ttl                = 0
@@ -150,33 +152,53 @@ resource "aws_lambda_function" "resume-lambda" {
   function_name = "resume-lambda"
 
   # The bucket name as created earlier with "aws s3api create-bucket"
-  s3_bucket = "main-bucket-28357"
-  s3_key    = "lambda/ResumeReadFunction.zip"
+  #s3_bucket = "main-bucket-28357"
+  #s3_key    = "lambda/ResumeReadFunction.zip"
 
+  filename = "resumelambda.zip"
   handler = "app.lambda_handler"
   runtime = "python3.11"
 
-  role = "${aws_iam_role.lambda_exec.arn}"
+  source_code_hash = data.archive_file.lambda.output_base64sha256
+  role = aws_iam_role.lambda_exec.arn
+
+  environment {
+    variables = {
+      DDB_TABLE = "${aws_dynamodb_table.resume-dynamodb.name}"
+    }
+} 
+    depends_on = [ 
+      data.archive_file.lambda
+      ]
+}
+
+data "archive_file" "lambda" {
+  type        = "zip"
+  source_dir = "sam-app/.aws-sam/build/resumelambda"
+  output_path = "resumelambda.zip"
+  depends_on = [
+    null_resource.build-lambda
+  ]
 }
 
 resource "aws_iam_role" "lambda_exec" {
   name = "serverless_example_lambda"
 
-  assume_role_policy = <<EOF
+  assume_role_policy = jsonencode(
 {
-  "Version": "2012-10-17",
-  "Statement": [
+  Version: "2012-10-17",
+  Statement: [
     {
-      "Action": "sts:AssumeRole",
-      "Principal": {
-        "Service": "lambda.amazonaws.com"
+      Action: "sts:AssumeRole",
+      Principal: {
+        Service: "lambda.amazonaws.com" # Sus
       },
-      "Effect": "Allow",
-      "Sid": ""
+      Effect: "Allow",
+      Sid: ""
     }
   ]
 }
-EOF
+)
 }
 
 resource "aws_lambda_permission" "apigw" {
@@ -187,13 +209,17 @@ resource "aws_lambda_permission" "apigw" {
 
   # The /*/* portion grants access from any method on any resource
   # within the API Gateway "REST API".
-  source_arn = "${aws_api_gateway_rest_api.resume-api.execution_arn}/*/*"
+  source_arn = "${aws_api_gateway_rest_api.resume-api.execution_arn}/*/*" # Sus
 }
 
 
 resource "aws_api_gateway_rest_api" "resume-api" {
   name        = "resume-api"
   description = "Terraform resume-api"
+  
+  endpoint_configuration {
+    types = ["REGIONAL"]
+  }
 }
 
 resource "aws_api_gateway_resource" "api-resource" {
@@ -254,9 +280,78 @@ resource "aws_api_gateway_integration_response" "options_integration_response" {
 resource "aws_api_gateway_deployment" "deployment" {
     rest_api_id   = "${aws_api_gateway_rest_api.resume-api.id}"
     stage_name    = "Dev"
-    depends_on    = [aws_api_gateway_integration.lambda]
+    depends_on    = [
+      aws_api_gateway_integration.lambda,
+      aws_api_gateway_integration_response.options_integration_response
+      ]
 }
 
+
+resource "aws_dynamodb_table" "resume-dynamodb" {
+  name             = "resume-table"
+  billing_mode     = "PAY_PER_REQUEST"
+  hash_key       = "id"
+
+  attribute {
+    name = "id"
+    type = "S"
+  }
+  server_side_encryption { enabled = true } 
+  tags = {
+    Name        = "dynamodb-resume-table"
+    Environment = "dev"
+  }
+#  lifecycle {
+#    prevent_destroy = true
+#  }
+}
+
+resource "aws_dynamodb_table_item" "example" {
+  table_name = aws_dynamodb_table.resume-dynamodb.name
+  hash_key   = aws_dynamodb_table.resume-dynamodb.hash_key
+
+  item = <<ITEM
+{
+  "id": {"S": "Counter"},
+  "count": {"N": "0"}
+}
+ITEM
+}
+
+resource "aws_iam_policy" "lambda_exec_role" {
+  name = "lambda-tf-pattern-ddb-post"
+
+  policy = <<POLICY
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "dynamodb:GetItem",
+                "dynamodb:PutItem",
+                "dynamodb:UpdateItem"
+            ],
+            "Resource": "${aws_dynamodb_table.resume-dynamodb.arn}"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+POLICY
+}
+
+resource "aws_iam_role_policy_attachment" "lambda_policy" {
+  role       = aws_iam_role.lambda_exec.name
+  policy_arn = aws_iam_policy.lambda_exec_role.arn
+}
 
 output "cloudfront_address" {
   value = aws_cloudfront_distribution.resume_cf_distribution.domain_name

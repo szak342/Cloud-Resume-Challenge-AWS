@@ -1,8 +1,9 @@
 import json
+import os
 import boto3
 
 client = boto3.client('dynamodb')
-table='resume-ResumeTable-1W6TYC4BQGRJU'
+table=os.environ("DDB_TABLE")
 
 class DataObject():
     def __init__(self) -> None:
