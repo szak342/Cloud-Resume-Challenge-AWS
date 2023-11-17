@@ -24,13 +24,8 @@ jobs:
     - name: Setup AWS SAM CLI          
       uses: aws-actions/setup-sam@v2
     - uses: actions/checkout@v3
-    - name: List folder
-      run: | 
-        ls
-        pwd
     - name: Build sam-app
-      run: pwd
-       # cd sam-app/ && sam build
+      run: cd sam-app/ && sam build
     - name: Set up Python 3.11
       uses: actions/setup-python@v3
       with:
