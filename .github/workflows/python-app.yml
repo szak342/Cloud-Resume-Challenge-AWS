@@ -25,7 +25,8 @@ jobs:
       uses: aws-actions/setup-sam@v2
     - name: Build sam-app
       run: |
-        pwd 
+        pwd
+        ls 
         cd sam-app/ && sam build
     - uses: actions/checkout@v3
     - name: Set up Python 3.11
