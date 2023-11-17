@@ -23,14 +23,14 @@ jobs:
     steps:
     - name: Setup AWS SAM CLI          
       uses: aws-actions/setup-sam@v2
-    - name: List folder
-      run: cd .. && ls
-    #- name: Build sam-app
-       # cd sam-app/ && sam build
     - uses: actions/checkout@v3
+    - name: List folder
       run: | 
-        pwd
         ls
+        pwd
+    - name: Build sam-app
+      run: pwd
+       # cd sam-app/ && sam build
     - name: Set up Python 3.11
       uses: actions/setup-python@v3
       with:
