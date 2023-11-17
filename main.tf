@@ -172,6 +172,20 @@ resource "aws_lambda_function" "resume-lambda" {
       ]
 }
 
+resource "aws_lambda_alias" "alias_dev" {
+  name             = "dev"
+  description      = "dev"
+  function_name    = aws_lambda_function.resume-lambda.arn
+  function_version = "$LATEST"
+}
+
+resource "aws_lambda_alias" "alias_prod" {
+  name             = "prod"
+  description      = "prod"
+  function_name    = aws_lambda_function.resume-lambda.arn
+  function_version = "$LATEST"
+}
+
 data "archive_file" "lambda" {
   type        = "zip"
   source_dir = "sam-app/.aws-sam/build/resumelambda"
@@ -279,13 +293,31 @@ resource "aws_api_gateway_integration_response" "options_integration_response" {
 
 resource "aws_api_gateway_deployment" "deployment" {
     rest_api_id   = "${aws_api_gateway_rest_api.resume-api.id}"
-    stage_name    = "Dev"
+    stage_name    = "prod"
     depends_on    = [
       aws_api_gateway_integration.lambda,
       aws_api_gateway_integration_response.options_integration_response
       ]
+
+        lifecycle {
+    create_before_destroy = true
+  }
+
+      variables = {
+    "stage" = "prod"
+  }
 }
 
+resource "aws_api_gateway_stage" "dev" {
+  deployment_id = aws_api_gateway_deployment.deployment.id
+  rest_api_id   = aws_api_gateway_rest_api.resume-api.id
+  stage_name    = "dev"
+
+  variables = {
+    "stage" = "dev"
+  }
+
+}
 
 resource "aws_dynamodb_table" "resume-dynamodb" {
   name             = "resume-table"

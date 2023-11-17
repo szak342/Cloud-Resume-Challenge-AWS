@@ -5,16 +5,19 @@ name: Python application
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "developer" ]
+    paths:
+      - sam-app/app/**
   pull_request:
-    branches: [ "main" ]
+    branches: [ "developer" ]
+    paths:
+      - sam-app/app/**
 
 permissions:
   contents: read
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -23,6 +26,7 @@ jobs:
       uses: actions/setup-python@v3
       with:
         python-version: "3.11"
+        cache: pip
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
