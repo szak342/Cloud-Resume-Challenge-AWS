@@ -27,7 +27,7 @@ jobs:
       run: |
         pwd
         ls 
-        cd sam-app/ && sam build
+       # cd sam-app/ && sam build
     - uses: actions/checkout@v3
     - name: Set up Python 3.11
       uses: actions/setup-python@v3
