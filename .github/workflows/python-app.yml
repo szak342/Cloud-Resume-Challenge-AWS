@@ -19,7 +19,6 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
     - name: Setup AWS SAM CLI          
       uses: aws-actions/setup-sam@v2
@@ -34,9 +33,35 @@ jobs:
         python -m pip install --upgrade pip
         pip install flake8 pytest
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-    #- uses: actions/checkout@v3
-    - name: Build sam-app
-      run: cd sam-app/ && sam build
     - name: Test with pytest
       run: |
         pytest
+    - name: Validate SAM template
+      run: cd sam-app/ && sam validate
+    - name: Build sam-app
+      run: cd sam-app/ && sam build
+    - name: Deploy to Lambda
+      uses: appleboy/lambda-action@v0.1.9
+      with:
+        aws_access-key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws_region: eu-west-1
+        function_name: resume-lambda
+        source: sam-app/.aws-sam/build/resumelambda/
+        
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+    
