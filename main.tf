@@ -5,7 +5,6 @@ terraform {
       version = "~> 5.24.0"        # Fixed terraform version
     }
   }
-
   required_version = ">= 1.2.0"
 }
 
@@ -39,12 +38,19 @@ resource "aws_s3_bucket" "resume-bucket" {
     }
 }
 
+resource "local_file" "jscode" {
+    content = templatefile("templates/script.tpl",{invoke_url = aws_api_gateway_deployment.deployment.invoke_url})
+    filename = "webpage/script.js"
+    depends_on = [ aws_api_gateway_deployment.deployment ]
+}
+
 resource "aws_s3_object" "webpage" {
   for_each = fileset("./webpage/", "*")
   bucket = aws_s3_bucket.resume-bucket.id
   key = each.value
   source = "./webpage/${each.value}"
   content_type = "text/html"
+  depends_on = [ local_file.jscode ]
 }
 
 resource "aws_s3_bucket_public_access_block" "block_public_access" {
