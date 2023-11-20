@@ -43,7 +43,7 @@ jobs:
     - name: Deploy to Lambda
       uses: appleboy/lambda-action@v0.1.9
       with:
-        aws_access-key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws_region: eu-west-1
         function_name: resume-lambda

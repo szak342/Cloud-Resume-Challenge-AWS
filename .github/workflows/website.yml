@@ -39,4 +39,5 @@ jobs:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: eu-west-1
-    - name: aws s3 sync build s3://${s3bucket} --delete
+    - name: Sync files with s3 bucket
+      run: aws s3 sync build s3://${s3bucket} --delete
