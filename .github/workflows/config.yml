@@ -1,0 +1,4 @@
+
+cloudfront_url: d3h8aqfimr8pmk.cloudfront.net
+s3bucket: resume-bucket-428690775959
+api_invoke_url: https://xr8tkzp99f.execute-api.eu-west-1.amazonaws.com/prod
