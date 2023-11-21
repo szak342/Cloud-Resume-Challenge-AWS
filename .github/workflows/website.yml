@@ -30,17 +30,16 @@ jobs:
 #        pytest
     - name: Checkout
       uses: actions/checkout@v3
-    - name: load variables from file
-      run: |
-        source config
-        echo $s3bucket
+    - name: Load environment variables from file
+        run: |
+          while IFS= read -r line; do
+            echo "$line" >> $GITHUB_ENV
+          done < config
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v4
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: eu-west-1
-    - name: echo s3bucket
-      run: echo $s3bucket
     - name: Sync files with s3 bucket
-      run: aws s3 sync build s3://$s3bucket --delete
+      run: aws s3 sync build s3://$S3BUCKET --delete
