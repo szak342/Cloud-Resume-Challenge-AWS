@@ -24,5 +24,3 @@ jobs:
           echo "Variable 1: $NAZWA_ZMIENNEJ_1"
           echo "Variable 2: $NAZWA_ZMIENNEJ_2"
           # Dodaj więcej zmiennych według potrzeb
-
-      - name: Your Other Steps
