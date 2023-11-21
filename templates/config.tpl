@@ -1,4 +1,3 @@
-
-cloudfront_url: ${cloudfront_url}
-s3bucket: ${s3bucket}
-api_invoke_url: ${invoke_url}
+CLOUDFRONT_URL=${cloudfront_url}
+S3BUCKET:=${s3bucket}
+API_INVOKE_URL=${invoke_url}

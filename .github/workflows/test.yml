@@ -1,0 +1,28 @@
+name: Load Environment Variables
+
+on:
+  push:
+    branches:
+      - developer
+
+jobs:
+  load-env-vars:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Load environment variables from file
+        run: |
+          while IFS= read -r line; do
+            export "$line"
+          done < config
+
+      - name: Display environment variables
+        run: |
+          echo "Variable 1: $NAZWA_ZMIENNEJ_1"
+          echo "Variable 2: $NAZWA_ZMIENNEJ_2"
+          # Dodaj więcej zmiennych według potrzeb
+
+      - name: Your Other Steps

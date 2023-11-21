@@ -44,6 +44,7 @@ resource "local_file" "jscode" {
     depends_on = [ aws_api_gateway_deployment.deployment ]
 }
 
+
 resource "aws_s3_object" "webpage" {
   for_each = fileset("./webpage/", "*")
   bucket = aws_s3_bucket.resume-bucket.id
@@ -406,6 +407,6 @@ resource "local_file" "config" {
       s3bucket = aws_s3_bucket.resume-bucket.id
       cloudfront_url = aws_cloudfront_distribution.resume_cf_distribution.domain_name
       })
-    filename = ".github/workflows/config.yml"
+    filename = "config"
     #depends_on = [ aws_api_gateway_deployment.deployment ]
 }
