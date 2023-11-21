@@ -34,4 +34,4 @@ jobs:
     - name: test variable
       run: echo $S3BUCKET
     - name: Sync files with s3 bucket
-      run: aws s3 sync build s3://$S3BUCKET --delete
+      run: aws s3 sync build "s3://$S3BUCKET" --delete
