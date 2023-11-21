@@ -21,6 +21,7 @@ jobs:
 
       - name: Display environment variables
         run: |
-          echo "Variable 1: $S3BUCKET"
+          env
+          echo $S3BUCKET
           echo "Variable 2: $NAZWA_ZMIENNEJ_2"
           # Dodaj więcej zmiennych według potrzeb
