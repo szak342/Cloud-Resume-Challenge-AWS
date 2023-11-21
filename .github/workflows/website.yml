@@ -1,8 +1,5 @@
 name: Website
 
-include: 'config.yml'
-variables:
-  s3bucket: s3bucket
 
 on:
   push:
@@ -19,6 +16,10 @@ permissions:
 
 jobs:
   build:
+    strategy:
+      matrix:
+        include:
+          - import: 'config.yml'    
     runs-on: ubuntu-latest
     steps:
     - name: Set up Python 3.11
