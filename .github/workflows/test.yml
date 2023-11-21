@@ -16,12 +16,9 @@ jobs:
       - name: Load environment variables from file
         run: |
           while IFS= read -r line; do
-            echo "::set-env name=$line"
+            ::set-env name=$line
           done < config
 
       - name: Display environment variables
         run: |
-          env
           echo $S3BUCKET
-          echo "Variable 2: $NAZWA_ZMIENNEJ_2"
-          # Dodaj więcej zmiennych według potrzeb
