@@ -30,17 +30,16 @@ jobs:
 #        pytest
     - name: Checkout
       uses: actions/checkout@v3
+    - name: load variables from file
+      run: |
+        source config
+        echo $s3bucket
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v4
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: eu-west-1
-    - name: load variables from file
-      run: |
-        set -o allexport
-        source config
-        set +o allexport
     - name: echo s3bucket
       run: echo $s3bucket
     - name: Sync files with s3 bucket
