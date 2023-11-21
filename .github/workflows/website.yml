@@ -40,6 +40,6 @@ jobs:
       run: |
         set -o allexport
         source config
-
+        set +o allexport
     - name: Sync files with s3 bucket
       run: aws s3 sync build s3://$s3bucket --delete
