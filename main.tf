@@ -38,13 +38,20 @@ resource "aws_s3_bucket" "resume-bucket" {
     }
 }
 
-resource "local_file" "jscode" {
+resource "local_file" "jsfile" {
     content = templatefile("templates/script.tpl",{invoke_url = aws_api_gateway_deployment.deployment.invoke_url})
     filename = "webpage/script.js"
     depends_on = [ aws_api_gateway_deployment.deployment ]
     
 }
 
+resource "aws_s3_object" "jsfile" {
+  source = local_file.jsfile.filename
+  key = "script.js"
+  bucket = aws_s3_bucket.resume-bucket.id
+  content_type = "application/javascript"
+  depends_on = [ local_file.jsfile ]
+  }
 
 resource "aws_s3_object" "webpage" {
   for_each = fileset("./webpage/", "*")
@@ -53,7 +60,6 @@ resource "aws_s3_object" "webpage" {
   source = "./webpage/${each.value}"
   content_type = "text/html"
   depends_on = [ 
-                local_file.jscode,
                 aws_api_gateway_deployment.deployment 
                 ]
 }
