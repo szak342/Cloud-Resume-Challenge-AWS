@@ -42,6 +42,7 @@ resource "local_file" "jscode" {
     content = templatefile("templates/script.tpl",{invoke_url = aws_api_gateway_deployment.deployment.invoke_url})
     filename = "webpage/script.js"
     depends_on = [ aws_api_gateway_deployment.deployment ]
+    
 }
 
 
@@ -51,7 +52,10 @@ resource "aws_s3_object" "webpage" {
   key = each.value
   source = "./webpage/${each.value}"
   content_type = "text/html"
-  depends_on = [ local_file.jscode ]
+  depends_on = [ 
+                local_file.jscode,
+                aws_api_gateway_deployment.deployment 
+                ]
 }
 
 resource "aws_s3_bucket_public_access_block" "block_public_access" {
