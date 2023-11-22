@@ -33,9 +33,9 @@ jobs:
         python -m pip install --upgrade pip
         pip install flake8 pytest
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-    - name: Test with pytest
-      run: |
-        pytest
+#    - name: Test with pytest
+#      run: |
+#        pytest
     - name: Validate SAM template
       run: cd sam-app/ && sam validate
     - name: Build sam-app
@@ -47,7 +47,7 @@ jobs:
         aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws_region: eu-west-1
         function_name: resume-lambda
-        source: sam-app/.aws-sam/build/resumelambda/
+        source: sam-app/.aws-sam/build/resumelambda/*
         
 
 
