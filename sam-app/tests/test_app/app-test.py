@@ -27,7 +27,7 @@ class TestSampleLambda(TestCase):
 
     def test_create_letter_in_s3(self) -> None:
     
-    self.mocked_dynamodb_class.table.put_item(Item={"PK":"D#UnitTestDoc",
+        self.mocked_dynamodb_class.table.put_item(Item={"PK":"D#UnitTestDoc",
                                                         "data":"Unit Test Doc Corpi"})
-    self.mocked_dynamodb_class.table.put_item(Item={"PK":"C#UnitTestCust",
+        self.mocked_dynamodb_class.table.put_item(Item={"PK":"C#UnitTestCust",
                                                         "data":"Unit Test Customer"})
