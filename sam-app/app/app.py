@@ -2,7 +2,8 @@ import os
 import boto3
 
 client = boto3.client('dynamodb')
-table=os.environ["DDB_TABLE"]
+#table=os.environ["DDB_TABLE"]
+table="test_table"
 
 def return_data(x):
     return {
@@ -26,3 +27,4 @@ def get_item():
 def lambda_handler(event, context):
     print("test4")
     return return_data(add_visitor(get_item()))
+
