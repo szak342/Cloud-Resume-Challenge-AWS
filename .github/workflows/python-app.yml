@@ -40,7 +40,7 @@ jobs:
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Test with pytest
       run: |
-        pytest Tests/lambda=test/app-test.py
+        pytest Tests/lambda-test/app-test.py
     - name: Validate SAM template
       run: cd sam-app/ && sam validate
     - name: Build sam-app
