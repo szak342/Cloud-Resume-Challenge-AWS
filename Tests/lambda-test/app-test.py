@@ -6,7 +6,7 @@ import os
 import sys
 
 
-path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../') + 'samapp/app/')
+path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../') + 'sam-app/app/')
 sys.path.append(path)
 
 MonkeyPatch().setenv("DDB_TABLE", "test_table")
