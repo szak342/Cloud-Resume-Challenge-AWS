@@ -1,7 +1,7 @@
 import os
 import boto3
 
-client = boto3.client('dynamodb')
+client = boto3.client('dynamodb', 'eu-west-1')
 table=os.environ["DDB_TABLE"]
 
 def return_data(x):
