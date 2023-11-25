@@ -3,7 +3,6 @@ import boto3
 
 client = boto3.client('dynamodb')
 table=os.environ["DDB_TABLE"]
-#table="test_table"
 
 def return_data(x):
     return {
