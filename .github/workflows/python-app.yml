@@ -36,11 +36,11 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install pytest moto[mock_dynamodb2] boto3
+        pip install pytest moto[mock_dynamodb2] boto3 python-env
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-#    - name: Test with pytest
-#      run: |
-#        pytest
+    - name: Test with pytest
+      run: |
+        pytest Tests/lambda=test/app-test.py
     - name: Validate SAM template
       run: cd sam-app/ && sam validate
     - name: Build sam-app

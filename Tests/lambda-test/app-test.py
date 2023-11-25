@@ -1,29 +1,22 @@
 import boto3
 import pytest
+from pytest import MonkeyPatch
 import moto
 import os
-from dotenv import load_dotenv
 import sys
 
-sys.path.append('app/app/')
 
-load_dotenv()
+path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../') + 'samapp/app/')
+sys.path.append(path)
 
-print(sys.path)
+MonkeyPatch().setenv("DDB_TABLE", "test_table")
+
 from app import *
 
 RETURN_DATA = {"statusCode": 200, "body":{ "message": 1}}
 
-@pytest.fixture(scope="session", autouse=True)
-def set_env():
-    os.environ["DDB_TABLE"] = "test_table"
-
-
 @moto.mock_dynamodb
 def test_lambda_handler():
-    
-    os.environ["DDB_TABLE"] = "test_table"
-
     table_name = "test_table"
     dynamodb = boto3.resource('dynamodb', 'eu-west-1')
 
