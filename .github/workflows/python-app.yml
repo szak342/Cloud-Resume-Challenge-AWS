@@ -5,11 +5,11 @@ name: Python application
 
 on:
   push:
-    branches: [ "developer" ]
+    branches: [ "main" ]
     paths:
       - sam-app/app/**
   pull_request:
-    branches: [ "developer" ]
+    branches: [ "main" ]
     paths:
       - sam-app/app/**
 
