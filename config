@@ -1,3 +1,3 @@
-CLOUDFRONT_URL=d277wqg1qmz4pi.cloudfront.net
+CLOUDFRONT_URL=d16i6plv6s8rcq.cloudfront.net
 S3BUCKET=resume-bucket-428690775959
-API_INVOKE_URL=https://x6lkbarurg.execute-api.eu-west-1.amazonaws.com/prod
+API_INVOKE_URL=https://v5o5rk7se2.execute-api.eu-west-1.amazonaws.com/prod
