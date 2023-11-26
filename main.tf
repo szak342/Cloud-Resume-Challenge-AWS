@@ -6,6 +6,11 @@ terraform {
     }
   }
   required_version = ">= 1.2.0"
+  backend "s3" {
+    bucket = "main-bucket-28357"
+    key = "terraform/resume.tfstate"
+    region = "eu-west-1"
+  }
 }
 
 resource "null_resource" "build-lambda" { # Building Lambda package from script
