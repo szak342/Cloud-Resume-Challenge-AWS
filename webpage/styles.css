@@ -13,7 +13,7 @@ body {
     visibility: hidden
 }
 
-#badge-name {
+div[id*="badge-name"] {
     visibility: hidden
 }
 
