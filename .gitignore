@@ -5,4 +5,8 @@ sam-app/.aws-sam/
 sam-resume/
 backup
 venv
-/terraform.tfstate.backup
+output.tf
+terraform.tfstate
+terraform.tfstate.backup
+terraform.tfvars
+variables.tf
