@@ -1,4 +1,5 @@
 .terraform/
+.webpage_main/
 scratch.tf
 resumelambda.zip
 sam-app/.aws-sam/

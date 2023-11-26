@@ -5,7 +5,7 @@ terraform {
       version = "~> 5.24.0"        # Fixed terraform version
     }
   }
-  required_version = ">= 1.2.0"
+  required_version = ">= 1.2.0" # Backend for .tfstate
   backend "s3" {
     bucket = "main-bucket-28357"
     key = "terraform/resume.tfstate"
