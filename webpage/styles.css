@@ -13,14 +13,10 @@ iframe[id*="badge-name"] {
     visibility: hidden
 }
 
-#provided {
+iframe[id*="badge-issuer"] {
     visibility: hidden
 }
 
-span[id*="badge-name"] {
-    visibility: hidden
-}
-
-#badge-issuer {
+iframe[id*="provided"] {
     visibility: hidden
 }
