@@ -1,6 +1,22 @@
 body {
     background-color: rgb(211, 224, 226);
-    border-left: auto;
-    border-right: auto;
+    margin-left: auto;
+    margin-right: auto;
     width: 800px;
+}
+
+.main-body {
+    background-color: rgb(156, 164, 165);
+}
+
+#provided {
+    visibility: hidden
+}
+
+#badge-name {
+    visibility: hidden
+}
+
+#badge-issuer {
+    visibility: hidden
 }
