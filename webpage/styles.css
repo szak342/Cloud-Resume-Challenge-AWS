@@ -9,7 +9,7 @@ body {
     background-color: rgb(156, 164, 165);
 }
 
-iframe {
+iframe[id*="badge-name"] {
     visibility: hidden
 }
 
