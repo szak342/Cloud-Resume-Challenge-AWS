@@ -1,22 +1,65 @@
 body {
-    background-color: rgb(211, 224, 226);
+    background-color: rgba(50, 80, 84, 0)18);
     margin-left: auto;
     margin-right: auto;
-    width: 800px;
+    width: 900px;
+    height: max-content;
 }
+
 
 .main-body {
-    background-color: rgb(156, 164, 165);
+    background-color: rgb(224, 224, 224);
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    grid-column-gap: 5px;
+    grid-row-gap: 5px;
 }
 
-iframe[id*="badge-name"] {
-    visibility: hidden
+.header {
+    grid-area: 1 / 2 / 2 / 6;
+    background-color: beige;
+    margin: 5px;
+    height: 150px;
 }
 
-iframe[id*="badge-issuer"] {
-    visibility: hidden
+.header>div {
+    margin: 5px;
+   
 }
 
-iframe[id*="provided"] {
-    visibility: hidden
+.left-side {
+    grid-area: 2 / 1 / 6 / 2;
+    margin: 5px;
+    background-color: rgb(153, 178, 181);
+}
+
+.left-side>div {
+    margin-left: 5px;
+}
+
+.right-side {
+    grid-area: 2 / 2 / 6 / 6;
+    margin: 5px;
+    background-color: rgb(178, 190, 192);
+}
+
+.right-side>div {
+    margin-left: 5px;
+}
+
+.photo {
+    grid-area: 1 / 1 / 2 / 2;
+    background-color: rgb(75, 92, 94);
+    margin: 5px;
+    height: 150px;
+    align-items: center;
+    align-content: center;
+}
+
+.photo>img {
+    border-radius: 50%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
