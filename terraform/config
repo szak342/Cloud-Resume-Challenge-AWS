@@ -1,0 +1,3 @@
+CLOUDFRONT_URL=d10r9kfh5tckny.cloudfront.net
+S3BUCKET=resume-bucket-428690775959
+API_INVOKE_URL=https://ui38johbp7.execute-api.eu-west-1.amazonaws.com/prod
