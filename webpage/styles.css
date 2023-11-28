@@ -1,11 +1,15 @@
 body {
-    background-color: rgba(50, 80, 84, 0)18);
+    background-color: rgba(50, 80, 84);
     margin-left: auto;
     margin-right: auto;
     width: 900px;
     height: max-content;
+    font-size: 100%;
 }
-
+  
+  p {
+    font-size: 0.85em;
+  }
 
 .main-body {
     background-color: rgb(224, 224, 224);
@@ -17,7 +21,7 @@ body {
 }
 
 .header {
-    grid-area: 1 / 2 / 2 / 6;
+    grid-area: 1 / 1 / 2 / 6;
     background-color: beige;
     margin: 5px;
     height: 150px;
@@ -47,7 +51,7 @@ body {
 .right-side>div {
     margin-left: 5px;
 }
-
+/*
 .photo {
     grid-area: 1 / 1 / 2 / 2;
     background-color: rgb(75, 92, 94);
@@ -56,10 +60,49 @@ body {
     align-items: center;
     align-content: center;
 }
-
-.photo>img {
+*/
+/*.photo>img {
     border-radius: 50%;
     display: block;
     margin-left: auto;
     margin-right: auto;
+}
+*/
+.list{
+    margin-left: 5px;
+    margin-right: 5px;
+    padding:0.15em 0 0.5em 1.5em;
+    margin-bottom:0.2em;
+    text-indent:0.4em;
+    list-style:none;
+    background-repeat:no-repeat;
+    background-size: 20px;
+    font-size: 0.85em;
+  }
+.list[data-type="github"] {
+    background-image:url(img/github_733609.png);
+}
+
+.list[data-type="credly"] {
+    background-image:url(img/achievement_7263540.png);
+}
+
+.list[data-type="linkedin"] {
+    background-image:url(img/linkedin_1384014.png);
+}
+
+.list[data-type="email"] {
+    background-image:url(img/email_3178158.png);
+}
+
+.list[data-type="adress"] {
+    background-image:url(img/gps_5616461.png);
+}
+
+.certifications {
+    flex: content;
+}
+
+.certifications img {
+    width: 100px;
 }
