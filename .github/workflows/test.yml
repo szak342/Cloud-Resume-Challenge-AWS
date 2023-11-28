@@ -17,7 +17,7 @@ jobs:
         run: |
           while IFS= read -r line; do
             echo "$line" >> $GITHUB_ENV
-          done < config
+          done < terraform/config
 
       - name: Display environment variables
         run: |

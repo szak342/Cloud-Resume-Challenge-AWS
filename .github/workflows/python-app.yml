@@ -32,7 +32,7 @@ jobs:
       run: |
         while IFS= read -r line; do
         echo "$line" >> $GITHUB_ENV
-        done < config
+        done < terraform/config
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v4
       with:
