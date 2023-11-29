@@ -1,18 +1,29 @@
 body {
-    background-color: rgba(50, 80, 84);
+    background-color: rgb(255, 255, 255);
     margin-left: auto;
     margin-right: auto;
     width: 900px;
     height: max-content;
     font-size: 100%;
 }
-  
-  p {
+
+h4, h5, p, ul {
+    margin: 5px;
+}
+
+p,
+li {
     font-size: 0.85em;
-  }
+}
+
+ul, li {
+    margin-left: 0px;
+    padding-left: 5px;
+    list-style: none;
+}
 
 .main-body {
-    background-color: rgb(224, 224, 224);
+    background-color: rgb(240, 240, 240);
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     grid-template-rows: repeat(5, 1fr);
@@ -22,20 +33,18 @@ body {
 
 .header {
     grid-area: 1 / 1 / 2 / 6;
-    background-color: beige;
-    margin: 5px;
+    background-color: rgb(198, 198, 198);
     height: 150px;
 }
 
 .header>div {
-    margin: 5px;
-   
+    margin-left: 5px;
+
 }
 
 .left-side {
     grid-area: 2 / 1 / 6 / 2;
-    margin: 5px;
-    background-color: rgb(153, 178, 181);
+    background-color: rgb(197, 197, 197);
 }
 
 .left-side>div {
@@ -44,13 +53,13 @@ body {
 
 .right-side {
     grid-area: 2 / 2 / 6 / 6;
-    margin: 5px;
-    background-color: rgb(178, 190, 192);
+    background-color: rgb(221, 221, 221);
 }
 
 .right-side>div {
     margin-left: 5px;
 }
+
 /*
 .photo {
     grid-area: 1 / 1 / 2 / 2;
@@ -68,35 +77,36 @@ body {
     margin-right: auto;
 }
 */
-.list{
+.list {
     margin-left: 5px;
     margin-right: 5px;
-    padding:0.15em 0 0.5em 1.5em;
-    margin-bottom:0.2em;
-    text-indent:0.4em;
-    list-style:none;
-    background-repeat:no-repeat;
+    padding: 0.15em 0 0.5em 1.5em;
+    margin-bottom: 0.2em;
+    text-indent: 0.4em;
+    list-style: none;
+    background-repeat: no-repeat;
     background-size: 20px;
     font-size: 0.85em;
-  }
+}
+
 .list[data-type="github"] {
-    background-image:url(img/github_733609.png);
+    background-image: url(img/github_733609.png);
 }
 
 .list[data-type="credly"] {
-    background-image:url(img/achievement_7263540.png);
+    background-image: url(img/achievement_7263540.png);
 }
 
 .list[data-type="linkedin"] {
-    background-image:url(img/linkedin_1384014.png);
+    background-image: url(img/linkedin_1384014.png);
 }
 
 .list[data-type="email"] {
-    background-image:url(img/email_3178158.png);
+    background-image: url(img/email_3178158.png);
 }
 
 .list[data-type="adress"] {
-    background-image:url(img/gps_5616461.png);
+    background-image: url(img/gps_5616461.png);
 }
 
 .certifications {
