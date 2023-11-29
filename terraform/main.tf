@@ -27,6 +27,9 @@ locals {
 }
 
 resource "null_resource" "shutdown_website" {
+   triggers = {
+    always_run = "${timestamp()}"
+  }
   provisioner "local-exec" {
     interpreter = ["/bin/bash", "-c"]
     command = "aws s3 rm s3://${aws_s3_bucket.resume-bucket.id}/index.html"
@@ -34,6 +37,9 @@ resource "null_resource" "shutdown_website" {
 }
 
 resource "null_resource" "start_website" {
+   triggers = {
+    always_run = "${timestamp()}"
+  }
   provisioner "local-exec" {
     interpreter = ["/bin/bash", "-c"]
     command = "aws s3 cp ../webpage/index.html s3://${aws_s3_bucket.resume-bucket.id}/"
