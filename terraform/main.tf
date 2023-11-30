@@ -2,13 +2,13 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 5.24.0"        # Fixed terraform version
+      version = "~> 5.24.0" # Fixed terraform version
     }
   }
   required_version = ">= 1.2.0" # Backend for .tfstate
   backend "s3" {
     bucket = "main-bucket-28357"
-    key = "terraform/resume.tfstate"
+    key    = "terraform/resume.tfstate"
     region = "eu-west-1"
   }
 }
@@ -18,33 +18,25 @@ provider "aws" {
 }
 
 data "aws_caller_identity" "current" {}
-    output "account_id" {
-    value = data.aws_caller_identity.current.account_id
-    }
+output "account_id" {
+  value = data.aws_caller_identity.current.account_id
+}
 
 locals {
-    account_id = data.aws_caller_identity.current.account_id
+  account_id = data.aws_caller_identity.current.account_id
 }
-
-resource "null_resource" "shutdown_website" {
-   triggers = {
+# TODO ------
+resource "null_resource" "shutdown_website" { # Removes index.html
+  count = var.enable_shutdown_website ? 1 : 0
+  triggers = {
     always_run = "${timestamp()}"
   }
   provisioner "local-exec" {
     interpreter = ["/bin/bash", "-c"]
-    command = "aws s3 rm s3://${aws_s3_bucket.resume-bucket.id}/index.html"
+    command     = "aws s3 rm s3://${aws_s3_bucket.resume-bucket.id}/index.html"
   }
 }
 
-resource "null_resource" "start_website" {
-   triggers = {
-    always_run = "${timestamp()}"
-  }
-  provisioner "local-exec" {
-    interpreter = ["/bin/bash", "-c"]
-    command = "aws s3 cp ../webpage/index.html s3://${aws_s3_bucket.resume-bucket.id}/"
-  }
-}
 
 
 
