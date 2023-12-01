@@ -1,9 +1,11 @@
-jobs:
-  load_variables:
-    steps:
-      - run: |
+name: 'load variables'
+description: 'action that load variables for github env'
+runs:
+  using: 'composite'
+  steps:
+    - run: |
           while IFS= read -r line; do
           echo "$line" >> $GITHUB_ENV
           done < terraform/config
-        shell: bash
+      shell: bash
       
