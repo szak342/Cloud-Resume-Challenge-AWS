@@ -20,7 +20,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
     - name: load variables
-      uses: ./.github/actions/load_variables@main
+      uses: szak342/.github/actions/load_variables@main
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v4
       with:
