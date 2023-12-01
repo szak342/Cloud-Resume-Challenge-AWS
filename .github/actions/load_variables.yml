@@ -1,0 +1,9 @@
+jobs:
+  load_variables:
+    steps:
+      - run: |
+          while IFS= read -r line; do
+          echo "$line" >> $GITHUB_ENV
+          done < terraform/config
+        shell: bash
+      
