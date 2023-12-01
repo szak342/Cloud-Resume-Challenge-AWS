@@ -19,11 +19,9 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v3
-    - name: Load environment variables from file
-      run: |
-        while IFS= read -r line; do
-        echo "$line" >> $GITHUB_ENV
-        done < terraform/config
+    - uses: .github/actions/load_variables
+      with:
+        name: Load Variables
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v4
       with:
