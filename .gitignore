@@ -1,5 +1,4 @@
 .terraform/
-.webpage_main/
 scratch.tf
 resumelambda.zip
 sam-app/.aws-sam/
@@ -9,4 +8,4 @@ venv
 terraform.tfstate
 terraform.tfstate.backup
 terraform.tfvars
-# variables.tf
+resume
