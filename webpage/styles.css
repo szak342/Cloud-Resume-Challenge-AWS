@@ -8,7 +8,7 @@ body {
 }
 
 h4, h5, p, ul {
-    margin: 5px;
+    margin: 10px;
 }
 
 p,
@@ -26,15 +26,14 @@ ul, li {
     background-color: rgb(240, 240, 240);
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    grid-template-rows: repeat(5, 1fr);
-    grid-column-gap: 5px;
-    grid-row-gap: 5px;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
 }
 
 .header {
     grid-area: 1 / 1 / 2 / 6;
     background-color: rgb(198, 198, 198);
-    height: 150px;
+    height:auto;
 }
 
 .header>div {
