@@ -19,7 +19,7 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v3
-    - uses: .github/actions/load_variables
+    - uses: .github/actions/load_variables.yml
       with:
         name: Load Variables
     - name: Configure AWS Credentials
