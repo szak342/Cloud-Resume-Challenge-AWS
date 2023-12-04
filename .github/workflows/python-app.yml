@@ -30,8 +30,6 @@ jobs:
         cache: pip
     - name: load variables
       uses: szak342/cloud_resume_challenge_aws/.github/actions/load_variables@main
-    - name: Configure AWS Credentials
-      uses: szak342/cloud_resume_challenge_aws/.github/actions/configure_aws_credentials@main
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
