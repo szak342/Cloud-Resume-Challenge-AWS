@@ -1,5 +1,12 @@
 name: 'configure aws credentials'
 description: 'action to configure aws credentials from github env'
+
+inputs:
+  secret_id: 
+    required: true
+  secret_key:
+    required: true
+
 runs:
   using: 'composite'
   steps:
@@ -7,6 +14,6 @@ runs:
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v4
       with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-access-key-id: ${{ inputs.secret_id }}
+        aws-secret-access-key: ${{ inputs.secret_key }}
         aws-region: eu-west-1
