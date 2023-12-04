@@ -3,6 +3,7 @@ description: 'action to configure aws credentials from github env'
 runs:
   using: 'composite'
   steps:
+    - uses: actions/checkout@v3
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v4
       with:
