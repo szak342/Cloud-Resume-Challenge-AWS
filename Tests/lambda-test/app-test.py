@@ -10,6 +10,8 @@ path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../') + 'sam-
 sys.path.append(path)
 
 MonkeyPatch().setenv("DDB_TABLE", "test_table")
+MonkeyPatch().setenv("AWS_ACCESS_KEY_ID", "testing")
+MonkeyPatch().setenv("AWS_SECRET_ACCESS_KEY", "testing")
 
 from app import *
 
