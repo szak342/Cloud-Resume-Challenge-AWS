@@ -2,11 +2,11 @@ name: Website
 
 on:
   push:
-    branches: ["main" ]
+    branches: [ "main" ]
     paths:
       - webpage/**
   pull_request:
-    branches: ["main" ]
+    branches: [ "main" ]
     paths:
       - webpage/**
 
@@ -22,9 +22,9 @@ jobs:
     - name: load variables
       uses: szak342/cloud_resume_challenge_aws/.github/actions/load_variables@main
     - name: Configure AWS Credentials
+      uses: szak342/cloud_resume_challenge_aws/.github/actions/configure_aws_credentials@main
       with:
         secret_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        uses: szak342/cloud_resume_challenge_aws/.github/actions/configure_aws_credentials@main
     - name: Sync files with s3 bucket
       run: aws s3 sync webpage/ "s3://${S3BUCKET}" --delete
