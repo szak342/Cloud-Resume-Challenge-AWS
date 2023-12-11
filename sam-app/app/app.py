@@ -26,5 +26,5 @@ def get_item():
 def lambda_handler(event, context):
     return return_data(add_visitor(get_item()))
 
-print("test4")
+print("test5")
 
