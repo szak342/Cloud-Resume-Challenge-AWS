@@ -15,6 +15,7 @@ resource "aws_lambda_function" "resume-lambda" {
   environment {
     variables = {
       DDB_TABLE = "${aws_dynamodb_table.resume-dynamodb.name}"
+      ALLOWED_SITES = join("," , ["https://www.${var.domain_name}", "https://${var.domain_name}", "https://${aws_cloudfront_distribution.resume_cf_distribution.domain_name}"])
     }
 } 
     depends_on = [ 
