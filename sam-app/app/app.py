@@ -1,15 +1,25 @@
 import os
 import boto3
+import json
+
 
 client = boto3.client('dynamodb', 'eu-west-1')
 table=os.environ["DDB_TABLE"]
+allowed_origins = os.environ["ALLOWED_SITES"].split(",")
+print(allowed_origins)
 
-def return_data(x):
+
+def return_data(x, origin_header):
     return {
         "statusCode": 200,
-        "body":{
-            "message": x
-        }}
+        "body":json.dumps({"message": x})
+            ,
+        "headers": {
+                    "Access-Control-Allow-Origin" : origin_header
+                },
+        "isBase64Encoded": False
+        }
+    
             
 def add_visitor(x):
     x = int(x) + 1
@@ -24,6 +34,21 @@ def get_item():
 
 
 def lambda_handler(event, context):
-    return return_data(add_visitor(get_item()))
+    #return return_data(add_visitor(get_item()), event)
+    if 'headers' in event and 'origin' in event['headers']:
+        origin_header = event['headers']['origin']
+        if origin_header in allowed_origins:
+            return return_data(add_visitor(get_item()), origin_header)
+                
+        else:
+            return {
+                'statusCode': 403,
+                'body': json.dumps('Access denied. Invalid origin.')
+                }
+    else:
+        return {
+            'statusCode': 400,
+            'body': json.dumps('Bad Request. Origin header not found.')
+        }
 
 
