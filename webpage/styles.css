@@ -3,7 +3,7 @@ body {
     margin-left: auto;
     margin-right: auto;
     width: 900px;
-    height: max-content;
+    height: auto;
     font-size: 100%;
 }
 
@@ -14,6 +14,7 @@ h4, h5, p, ul {
 p,
 li {
     font-size: 0.85em;
+    padding-bottom: 7px;
 }
 
 ul, li {
@@ -23,17 +24,18 @@ ul, li {
 }
 
 .main-body {
-    background-color: rgb(240, 240, 240);
+    background-color: rgb(78, 21, 21);
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     grid-column-gap: 0px;
     grid-row-gap: 0px;
+    height: 100vh;
 }
 
 .header {
     grid-area: 1 / 1 / 2 / 6;
-    background-color: rgb(198, 198, 198);
-    height:auto;
+    background-color: rgb(233, 233, 233);
+    height: auto;
 }
 
 .header>div {
@@ -43,7 +45,8 @@ ul, li {
 
 .left-side {
     grid-area: 2 / 1 / 6 / 2;
-    background-color: rgb(197, 197, 197);
+    background-color: rgb(233, 233, 233);
+    height: auto;
 }
 
 .left-side>div {
@@ -52,7 +55,7 @@ ul, li {
 
 .right-side {
     grid-area: 2 / 2 / 6 / 6;
-    background-color: rgb(221, 221, 221);
+    background-color: rgb(243, 243, 243);
 }
 
 .right-side>div {
@@ -89,23 +92,23 @@ ul, li {
 }
 
 .list[data-type="github"] {
-    background-image: url(img/github_733609.png);
+    background-image: url(img/github.png);
 }
 
 .list[data-type="credly"] {
-    background-image: url(img/achievement_7263540.png);
+    background-image: url(img/achievement.png);
 }
 
 .list[data-type="linkedin"] {
-    background-image: url(img/linkedin_1384014.png);
+    background-image: url(img/linkedin.png);
 }
 
 .list[data-type="email"] {
-    background-image: url(img/email_3178158.png);
+    background-image: url(img/email.png);
 }
 
 .list[data-type="adress"] {
-    background-image: url(img/gps_5616461.png);
+    background-image: url(img/gps.png);
 }
 
 .certifications {
