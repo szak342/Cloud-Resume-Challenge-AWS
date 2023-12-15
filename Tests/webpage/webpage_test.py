@@ -1,15 +1,24 @@
 import json
 import os
 import pytest
+import sys
 
-def test_api_link(js):
+path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../') + 'webpage/')
+sys.path.append(path)
+
+files = ['img', 'index.html', 'script.js', 'styles.css']
+images = ["achievement.png", "AWSCCP.png", "AWSCDA.png", "AWSCSA.png", "email.png", "github.png", "gps.png", "linkedin.png"]
+
+def test_api_link():
     assert True
 
-def test_name_of_files(files):
-    assert files == ['index.html', 'script.js', 'styles.css']
+def test_root_folder():
+    output = os.listdir(path)
+    assert output == files
 
-def test_webpage(folder):
-    files = os.listdir(folder)
+def test_img_folder():
+    output = os.listdir(f"{path}/img")
+    assert output == images
 
 
 
