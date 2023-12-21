@@ -8,7 +8,10 @@
 
 <body>
     <div class="main-body">
-        <div class="header">
+        <div class="left-side">
+            <div class="photo">
+                <img src="img/face.jpg">
+            </div>
             <div>
                 <h4>Krzysztof Szadkowski</h4>
                 <p>Specjalista IT</p>
@@ -16,49 +19,52 @@
                         href="mailto: mail@krzysztofszadkowski.com">mail@krzysztofszadkowski.com</a></li>
                 <li class="list" data-type="adress">Czosnów, Polska</li>
             </div>
-        </div>
-        <div class="left-side">
-            <div>
-                <h5>Umiejętności</h5>
-                <ul>
-                    <li>Linux</li>
-                    <li>Python</li>
-                    <li>Git</li>
-                    <li>Terraform</li>
-                    <li>AWS</li>
-                </ul>
-                <hr />
-                <h5>Linki</h5>
-
-                <a href="https://www.linkedin.com/in/krzysztof-s-240793278">
-                    <li class="list" data-type="linkedin">Linkedin</li>
-                </a>
-                <a href="https://github.com/szak342">
-                    <li class="list" data-type="github">GitHub</li>
-                </a>
-                <a href="https://www.credly.com/users/krzysztof-szadkowski">
-                    <li class="list" data-type="credly">Credly</li>
-                </a>
-                <hr />
-                <h5>Zainteresowania</h5>
-                <ul>
-                    <li>C++ i Python</li>
-                    <li>Rozwiązania chmurowe</li>
-                    <li>Fantastyka naukowa</li>
-                    <li>Sport</li>
-                </ul>
-                <hr />
+            <a href="https://www.linkedin.com/in/krzysztof-s-240793278">
+                <li class="list" data-type="linkedin">Linkedin</li>
+            </a>
+            <a href="https://github.com/szak342">
+                <li class="list" data-type="github">GitHub</li>
+            </a>
+            <a href="https://www.credly.com/users/krzysztof-szadkowski">
+                <li class="list" data-type="credly">Credly</li>
+            </a>
+            <hr />
                 <p>Licznik odwiedzin: <span id="show"></span></p>
                 <script src="script.js"></script>
-            </div>
         </div>
         <div class="right-side">
             <div>
-                <h4>Doświadczenie zawodowe</h4>
-                <h4>Projekty</h4>
-                <p>Cloud Resume Challenge - AWS</p>
-                <p>test3</p>
+                <h5>Umiejętności</h5>
+                <div class="skills">
+                    <div></div>
+                    <p>Linux</p>
+                    <div></div>
+                    <p>Python</p>
+                    <div></div>
+                    <p>Git</p>
+                    <div></div>
+                    <p>Terraform</p>
+                    <div></div>
+                    <p>AWS</p>
+                    <div></div>
+                </div>
                 <hr />
+                <h5>Zainteresowania</h5>
+                <div class="skills">
+                    <div></div>
+                    <p>Python</p>
+                    <div></div>
+                    <p>C++</p>
+                    <div></div>
+                    <p>Fantastyka naukowa</p>
+                    <div></div>
+                    <p>Sport</p>
+                    <div></div>
+                </div>
+                <hr />
+                <div class="head">
+                    <h4>Doświadczenie zawodowe</h4>
+                </div>
                 <h4>Guru Control Systems, Łomianki</h4>
                 <p>Specjalista IT, 2019 - Obecnie</p>
                 <ul>
@@ -109,7 +115,11 @@
                     <a href="https://www.credly.com/badges/91fa16e1-be9f-4e5e-b232-0c9f4f34393e/public_url"><img
                             src="img/AWSCDA.png"></a>
                 </div>
+                <hr />
             </div>
+            <footer>
+                <p>Strona jest częścią projektu <a href="https://cloudresumechallenge.dev/docs/the-challenge/aws/">Cloud Resume Challenge - AWS</a> została stworzona w całości używając DynamoDB, Lambda, S3, Route53, CloudFront</p>
+            </footer>
         </div>
     </div>
 </body>
