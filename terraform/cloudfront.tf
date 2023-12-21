@@ -26,10 +26,10 @@ resource "aws_cloudfront_distribution" "resume_cf_distribution" {
       }
     }
 
-    viewer_protocol_policy = "redirect-to-https" # Dev settings, no cache
-    min_ttl                = 0
-    default_ttl            = 0
-    max_ttl                = 0
+    viewer_protocol_policy = "redirect-to-https" 
+    min_ttl                = 3600
+    default_ttl            = 86400
+    max_ttl                = 31536000
   }
 
   price_class = "PriceClass_100"
