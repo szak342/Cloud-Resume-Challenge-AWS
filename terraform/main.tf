@@ -26,17 +26,7 @@ data "aws_caller_identity" "current" {}
 locals {
   account_id = data.aws_caller_identity.current.account_id
 }
-# TODO ------
-resource "null_resource" "shutdown_website" { # Removes index.html
-  count = var.enable_shutdown_website ? 1 : 0
-  triggers = {
-    always_run = "${timestamp()}"
-  }
-  provisioner "local-exec" {
-    interpreter = ["/bin/bash", "-c"]
-    command     = "aws s3 rm s3://${aws_s3_bucket.resume-bucket.id}/index.html"
-  }
-}
+
 
 
 
