@@ -4,7 +4,11 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 5.24.0" # Fixed terraform version
     }
+     github = {
+      source  = "integrations/github"
+      }
   }
+ 
   required_version = ">= 1.2.0" # Backend for .tfstate
   backend "s3" {
     bucket = "main-bucket-28357"
