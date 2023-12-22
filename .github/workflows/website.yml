@@ -25,7 +25,7 @@ jobs:
         secret_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     - name: Sync files with s3 bucket
-      run: aws s3 sync webpage/ "s3://${S3BUCKET}" --delete
+      run: aws s3 sync webpage/ "s3://$S3BUCKET" --delete
     - name: test variable
       run: echo $CLOUDFRONT_ID
     - name: Invalidate Cloud Front cache
