@@ -6,5 +6,4 @@ resource "local_file" "config" {
       cloudfront_id = aws_cloudfront_distribution.resume_cf_distribution.id
       })
     filename = "config"
-    #depends_on = [ aws_api_gateway_deployment.deployment ]
 }
