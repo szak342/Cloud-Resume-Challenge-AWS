@@ -20,17 +20,6 @@ resource "aws_api_gateway_method" "api-method" {
   authorization = "NONE"
 }
 
-//resource "aws_api_gateway_method_response" "options_200" {
-//    rest_api_id   = "${aws_api_gateway_rest_api.resume-api.id}"
-//    resource_id   = "${aws_api_gateway_resource.api-resource.id}"
-//    http_method   = "${aws_api_gateway_method.api-method.http_method}"
-//    status_code   = "200"
-//    response_parameters = {
-//        "method.response.header.Access-Control-Allow-Origin" = true
-//    }
-//    depends_on = [aws_api_gateway_method.api-method]
-//}
-
 resource "aws_api_gateway_integration" "lambda" {
     rest_api_id   = "${aws_api_gateway_rest_api.resume-api.id}"
     resource_id   = "${aws_api_gateway_resource.api-resource.id}"
@@ -51,23 +40,11 @@ resource "aws_api_gateway_integration" "lambda_root" {
   uri                     = "${aws_lambda_function.resume-lambda.invoke_arn}"
 }
 
-//resource "aws_api_gateway_integration_response" "options_integration_response" {
-//    rest_api_id   = "${aws_api_gateway_rest_api.resume-api.id}"
-//    resource_id   = "${aws_api_gateway_resource.api-resource.id}"
-//    http_method   = "${aws_api_gateway_method.api-method.http_method}"
-//    status_code   = "${aws_api_gateway_method_response.options_200.status_code}"
-//    response_parameters = {
-//        "method.response.header.Access-Control-Allow-Origin" = "'https://${aws_cloudfront_distribution.resume_cf_distribution.domain_name}'"
-//    }
-//    depends_on = [aws_api_gateway_method_response.options_200]
-//}
-
 resource "aws_api_gateway_deployment" "deployment" {
     rest_api_id   = "${aws_api_gateway_rest_api.resume-api.id}"
     stage_name    = "prod"
     depends_on    = [
       aws_api_gateway_integration.lambda,
-      //aws_api_gateway_integration_response.options_integration_response
       ]
 
         lifecycle {
