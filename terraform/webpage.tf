@@ -10,7 +10,7 @@ resource "local_file" "jsfile" {
 resource "null_resource" "upload_website" {
   provisioner "local-exec" {
     command = <<EOT
-    aws s3 sync ../webpage s3://${aws_s3_bucket.resume-bucket.id}
+    aws s3 sync ../webpage "s3://${aws_s3_bucket.resume-bucket.id}"
     EOT
   }
   depends_on = [aws_s3_bucket.resume-bucket, local_file.jsfile]
