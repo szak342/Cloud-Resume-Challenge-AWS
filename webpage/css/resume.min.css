@@ -162,4 +162,11 @@ a:hover {
 
 .cert-img {
     width: 250px;
-  }
+}
+
+.counter-item {
+    font-weight: 600;
+    text-transform: uppercase;
+    font-family: 'Open Sans', serif;
+    color: rgba(255,255,255,.5);
+}
