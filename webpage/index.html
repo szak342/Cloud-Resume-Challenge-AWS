@@ -1,125 +1,230 @@
 <!DOCTYPE html>
+<html lang="en">
 
-<head>
+  <head>
+
     <meta charset="utf-8">
-    <link rel="stylesheet" href="styles.css">
-    <script type="text/javascript" async src="https://cdn.credly.com/assets/utilities/embed.js"></script>
-</head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-<body>
-    <div class="main-body">
-        <div class="left-side">
-            <div class="photo">
-                <img src="img/face.jpg">
-            </div>
-            <div>
-                <h4>Krzysztof Szadkowski</h4>
-                <p>Specjalista IT - TEST8</p>
-                <li class="list" data-type="email"><a
-                        href="mailto: mail@krzysztofszadkowski.com">mail@krzysztofszadkowski.com</a></li>
-                <li class="list" data-type="adress">Czosnów, Polska</li>
-            </div>
-            <a href="https://www.linkedin.com/in/krzysztof-s-240793278">
-                <li class="list" data-type="linkedin">Linkedin</li>
-            </a>
-            <a href="https://github.com/szak342">
-                <li class="list" data-type="github">GitHub</li>
-            </a>
-            <a href="https://www.credly.com/users/krzysztof-szadkowski">
-                <li class="list" data-type="credly">Credly</li>
-            </a>
-            <hr />
-                <p>Licznik odwiedzin: <span id="show"></span></p>
-                <script src="script.js"></script>
+    <title>Krzysztof Szadkowski - Resume</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom fonts for this template -->
+    <link href="https://fonts.googleapis.com/css?family=Saira+Extra+Condensed:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
+    <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="vendor/devicons/css/devicons.min.css" rel="stylesheet">
+    <link href="vendor/simple-line-icons/css/simple-line-icons.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/resume.min.css" rel="stylesheet">
+
+  </head>
+
+  <body id="page-top">
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="sideNav">
+      <a class="navbar-brand js-scroll-trigger" href="#page-top">
+        <span class="d-block d-lg-none">Start Bootstrap</span>
+        <span class="d-none d-lg-block">
+          <img class="img-fluid img-profile rounded-circle mx-auto mb-2" src="img/profile.jpg" alt="">
+        </span>
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#about">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#experience">Experience</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#education">Education</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#skills">Projects</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#interests">Interests</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#awards">Certifications</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="container-fluid p-0">
+
+      <section class="resume-section p-3 p-lg-5 d-flex d-column" id="about">
+        <div class="my-auto">
+          <h1 class="mb-0">Krzysztof
+            <span class="text-primary">Szadkowski</span>
+          </h1>
+          <div class="subheading mb-5">IT Specialist ·
+            <a href="mailto:name@email.com">mail@krzysztofszadkowski.com</a>
+          </div>
+          <p class="mb-5">I am an IT specialist with several years of experience.</p>
+          <ul class="list-inline list-social-icons mb-0">
+            <li class="list-inline-item">
+              <a href="https://www.linkedin.com/in/krzysztof-s-240793278">
+                <span class="fa-stack fa-lg">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                </span>
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a href="https://github.com/szak342">
+                <span class="fa-stack fa-lg">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                </span>
+              </a>
+            </li>
+          </ul>
         </div>
-        <div class="right-side">
-            <div>
-                <h5>Umiejętności</h5>
-                <div class="skills">
-                    <div></div>
-                    <p>Linux</p>
-                    <div></div>
-                    <p>Python</p>
-                    <div></div>
-                    <p>Git</p>
-                    <div></div>
-                    <p>Terraform</p>
-                    <div></div>
-                    <p>AWS</p>
-                    <div></div>
-                </div>
-                <hr />
-                <h5>Zainteresowania</h5>
-                <div class="skills">
-                    <div></div>
-                    <p>Python</p>
-                    <div></div>
-                    <p>C++</p>
-                    <div></div>
-                    <p>Fantastyka naukowa</p>
-                    <div></div>
-                    <p>Sport</p>
-                    <div></div>
-                </div>
-                <hr />
-                <div class="head">
-                    <h4>Doświadczenie zawodowe</h4>
-                </div>
-                <h4>Guru Control Systems, Łomianki</h4>
-                <p>Specjalista IT, 2019 - Obecnie</p>
-                <ul>
-                    <li><strong>Wsparcie klientów biznesowych:</strong> Aktywnie udzielam wsparcia technicznego klientom
-                        biznesowym, zwłaszcza w obszarze informatyki przemysłowej. Rozwiązuję problemy związane z
-                        systemami Teltonika Networks, Raritan i innymi technologiami przemysłowymi.</li>
+      </section>
 
-                    <li><strong>Dobieranie sprzętu komputerowego pod projekty i przetargi:</strong> Skupiam się na
-                        specyficznych potrzebach projektów informatyki przemysłowej. Efektywne dostosowanie technologii
-                        wspomaga optymalizację produkcji.</li>
+      <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="experience">
+        <div class="my-auto">
+          <h2 class="mb-5">Relevant work experience</h2>
 
-                    <li><strong>Automatyzacja dodawania produktów do sklepu firmowego:</strong> Zautomatyzowałem przy pomocy języka Python dodawanie większości produktów kluczowych producentów.</li>
-
-                </ul>
-                <hr />
-                <h4>Autokompleks Łukasz Filipek, Czosnów</h4>
-                <p>Specjalista IT, 2015 - 2019</p>
-                <ul>
-                    <ul>
-                        <li><strong>Obsługiwałem infrastrukturę IT w firmie:</strong> Nadzorowałem kompleksową obsługę
-                            infrastruktury IT, zarządzając sprzętem komputerowym, siecią oraz systemami serwerowymi.
-                            Zapewniałem stabilność i bezpieczeństwo infrastruktury, przyczyniając się do sprawnego
-                            funkcjonowania wszystkich procesów biznesowych.</li>
-
-                        <li><strong>Wdrażałem, utrzymywałem i obsługiwałem system B2B:</strong> Kierowałem procesem
-                            wdrożenia, utrzymania i obsługi systemu B2B, konfigurując techniczne aspekty i dostosowując
-                            funkcjonalności do specyficznych potrzeb biznesowych. Działałem na rzecz efektywnej wymiany
-                            informacji i współpracy z partnerami handlowymi.</li>
-
-                        <li><strong>Świadczyłem wsparcie IT dla pracowników:</strong> Udzielałem wsparcia IT dla
-                            pracowników, rozwiązując problemy z oprogramowaniem, konfigurując sprzęt oraz zapewniając
-                            szybką pomoc w przypadku awarii. Zapewniałem sprawną pracę narzędzi technologicznych,
-                            przyczyniając się do efektywności zespołu.</li>
-
-                        <li><strong>Obsługiwałem klientów biznesowych:</strong> Zapewniałem kompleksową obsługę klientów
-                            biznesowych, skupiając się na ich indywidualnych potrzebach. Rozwijałem i utrzymywałem
-                            długotrwałe relacje z klientami, dostarczając im rozwiązania dostosowane do specyfiki ich
-                            działalności.</li>
-                    </ul>
-                </ul>
-                <hr />
-                <h5>Certyfikaty</h5>
-                <div class="certifications">
-                    <a href="https://www.credly.com/badges/2b85ddbc-b81a-4953-9393-ea7c7f231be2/public_url"><img
-                            src="img/AWSCCP.png"></a>
-                    <a href="https://www.credly.com/badges/3de69d8d-f2af-4715-a53f-1fc32d7e80ba/public_url"><img
-                            src="img/AWSCSA.png"></a>
-                    <a href="https://www.credly.com/badges/91fa16e1-be9f-4e5e-b232-0c9f4f34393e/public_url"><img
-                            src="img/AWSCDA.png"></a>
-                </div>
-                <hr />
+          <div class="resume-item d-flex flex-column flex-md-row mb-5">
+            <div class="resume-content mr-auto">
+              <h3 class="mb-0">IT Specialist</h3>
+              <div class="subheading mb-3">Guru Control Systems</div>
+              <p>Pending</p>
             </div>
-            <footer>
-                <p>Strona jest częścią projektu <a href="https://cloudresumechallenge.dev/docs/the-challenge/aws/">Cloud Resume Challenge - AWS</a> została stworzona w całości używając DynamoDB, Lambda, S3, Route53, CloudFront</p>
-            </footer>
+            <div class="resume-date text-md-right">
+              <span class="text-primary">March 2019 - Present</span>
+            </div>
+          </div>
+
+          <div class="resume-item d-flex flex-column flex-md-row mb-5">
+            <div class="resume-content mr-auto">
+              <h3 class="mb-0">IT Specialist</h3>
+              <div class="subheading mb-3">Autokompleks Łukasz Filipek</div>
+              <p>Pending</p>
+            </div>
+            <div class="resume-date text-md-right">
+              <span class="text-primary">December 2011 - March 2013</span>
+            </div>
+          </div>
+
+          <div class="resume-item d-flex flex-column flex-md-row mb-5">
+            <div class="resume-content mr-auto">
+              <h3 class="mb-0">Game Tester</h3>
+              <div class="subheading mb-3">PlayWay S.A.</div>
+              <p>Pending</p>
+            </div>
+            <div class="resume-date text-md-right">
+              <span class="text-primary">July 2010 - December 2011</span>
+            </div>
+          </div>
         </div>
+
+      </section>
+
+      <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="education">
+        <div class="my-auto">
+          <h2 class="mb-5">Education</h2>
+
+          <div class="resume-item d-flex flex-column flex-md-row mb-5">
+            <div class="resume-content mr-auto">
+              <h3 class="mb-0">University of Colorado Boulder</h3>
+              <div class="subheading mb-3">Bachelor of Science</div>
+              <div>Computer Science - Web Development Track</div>
+              <p>GPA: 3.23</p>
+            </div>
+            <div class="resume-date text-md-right">
+              <span class="text-primary">August 2006 - May 2010</span>
+            </div>
+          </div>
+
+          <div class="resume-item d-flex flex-column flex-md-row">
+            <div class="resume-content mr-auto">
+              <h3 class="mb-0">James Buchanan High School</h3>
+              <div class="subheading mb-3">Technology Magnet Program</div>
+              <p>GPA: 3.56</p>
+            </div>
+            <div class="resume-date text-md-right">
+              <span class="text-primary">August 2002 - May 2006</span>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="skills">
+        <div class="my-auto">
+          <h2 class="mb-5">Projects</h2>
+
+          <h3>Cloud Resume Challenge - AWS</h3>
+          <div class="subheading mb-3">Terraform, AWS SAM, Route53, CloudFront, S3, Lambda, API Gateway, DynamoDB, GitHub, Python, JavaScript, HTML, CSS</div>
+          <ul class="fa-ul mb-0">
+            <li>
+              <i class="fa-li fa fa-check"></i>
+              For IaC deployment i used Terraform with backend on S3</li>
+            <li>
+              <i class="fa-li fa fa-check"></i>
+              The site uses HTML, CSS and JavaScript and is based on a modified bootstrap template</li>
+            <li>
+              <i class="fa-li fa fa-check"></i>
+              The front-end of the website is implemented using Cloud Front with the source on S3 </li>
+            <li>
+              <i class="fa-li fa fa-check"></i>
+              The visit counter uses JavaScript code, Gateway API and DynamoDB table</li>
+              <li>
+                <i class="fa-li fa fa-check"></i>
+                CI/CD was built using GitHub Actions</li>
+                <li>
+                  <i class="fa-li fa fa-check"></i>
+                  The tests for Lambda were written in Python based on the Pytest and Moto libraries</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="interests">
+        <div class="my-auto">
+          <h2 class="mb-5">Interests</h2>
+          <p>In addition to my programming and cloud-related interests, I enjoy a variety of sports, from leisurely walking and cycling to targeted weight training. Furthermore, I am fascinated by the world of fantasy and science fiction, belong to one of the Polish fantasy clubs and regularly travel to various conventions and gatherings. This combination of technical knowledge and various recreational activities shows the multi-faceted nature of my interests.</p>
+          <p class="mb-0"></p>
+        </div>
+      </section>
+
+      <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="awards">
+        <div class="my-auto">
+          <h2 class="mb-5">Certifications</h2>
+            <a href="https://www.credly.com/badges/2b85ddbc-b81a-4953-9393-ea7c7f231be2/public_url"><img class="cert-img"
+                    src="img/AWSCCP.png"></a>
+            <a href="https://www.credly.com/badges/3de69d8d-f2af-4715-a53f-1fc32d7e80ba/public_url"><img class="cert-img"
+                    src="img/AWSCSA.png"></a>
+            <a href="https://www.credly.com/badges/91fa16e1-be9f-4e5e-b232-0c9f4f34393e/public_url"><img class="cert-img"
+                    src="img/AWSCDA.png"></a>
+        </div>
+        
+      </section>
+
     </div>
-</body>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for this template -->
+    <script src="js/resume.min.js"></script>
+
+  </body>
+
+</html>
