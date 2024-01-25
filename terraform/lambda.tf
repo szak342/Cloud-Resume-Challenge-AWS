@@ -51,7 +51,7 @@ data "archive_file" "lambda" {
 }
 
 resource "aws_iam_role" "lambda_exec" {
-  name = "serverless_example_lambda"
+  name = "serverless_example_lambda_resume"
 
   assume_role_policy = jsonencode(
 {

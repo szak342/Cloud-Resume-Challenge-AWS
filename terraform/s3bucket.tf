@@ -1,5 +1,6 @@
 resource "aws_s3_bucket" "resume-bucket" {
     bucket = "resume-bucket-${local.account_id}"
+    force_destroy = true
     tags = {
         Name = "resume-bucket"
         Environment = "Dev"
