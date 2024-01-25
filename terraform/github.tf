@@ -18,6 +18,17 @@ resource "github_repository_file" "config_file" {
   overwrite_on_create = true
 }
 
+resource "github_repository_file" "script_js" {
+  repository = data.github_repository.repo.name
+  branch = "main"
+  file = "webpage/js/script.js"
+  content = resource.local_file.jsfile
+  commit_message = "script.js from terraform"
+  commit_email = "krzysztof.szadkowski@gmail.com"
+  commit_author = "Chris"
+  overwrite_on_create = true
+}
+
 resource "github_actions_variable" "cloudfront_id" {
   repository = data.github_repository.repo.name
   variable_name = "CLOUDFRONT_ID"
@@ -41,3 +52,5 @@ resource "github_actions_variable" "invoke_url" {
   variable_name = "API_INVOKE_URL"
   value = aws_api_gateway_deployment.deployment.invoke_url
 }
+
+
