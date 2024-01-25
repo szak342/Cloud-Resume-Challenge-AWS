@@ -22,7 +22,7 @@ resource "github_repository_file" "script_js" {
   repository = data.github_repository.repo.name
   branch = "main"
   file = "webpage/js/script.js"
-  content = resource.local_file.jsfile
+  content = resource.local_file.jsfile.content
   commit_message = "script.js from terraform"
   commit_email = "krzysztof.szadkowski@gmail.com"
   commit_author = "Chris"
