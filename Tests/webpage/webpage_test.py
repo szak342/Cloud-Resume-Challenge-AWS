@@ -6,7 +6,7 @@ import sys
 path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../') + 'webpage/')
 sys.path.append(path)
 
-files = ['bootstrap', 'devicons', 'font-awesome', 'jquery', 'jquery-easing', 'simple-line-icons', 'gulpfile.js', 'index.html', 'LICENSE', 'package.json']
+files = ['css', 'img', 'js', 'scss', 'vendor', 'gulpfile.js', 'index.html', 'LICENSE', 'package.json']
 
 files = sorted(files)
 
