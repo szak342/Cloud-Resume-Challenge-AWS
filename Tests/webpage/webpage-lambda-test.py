@@ -15,7 +15,7 @@ def test_lambda_on_webpage():
 def get_org_counter(url):
     session = HTMLSession()
     r = session.get(url)
-    r.html.render(sleep=1)
+    r.html.render(sleep=3)
     y = r.html.find("span#show", first=True)
     return int(y.text)
 
@@ -29,7 +29,7 @@ def test_visit_counter_on_webpage():
     for i in range(2):
         session = HTMLSession()
         r = session.get(url)
-        r.html.render(sleep=1)
+        r.html.render(sleep=3)
         x = r.html.find("span#show", first=True)
         counter += int(x.text)
 
