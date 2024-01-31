@@ -1,4 +1,4 @@
-name: Website
+name: WebsiteDev
 
 on:
   push:
