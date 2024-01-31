@@ -18,6 +18,17 @@ resource "github_repository_file" "config_file" {
   overwrite_on_create = true
 }
 
+resource "github_repository_file" "config_file_dev" {
+  repository          = data.github_repository.repo.name
+  branch              = "dev"
+  file                = "terraform/config"
+  content             = resource.local_file.config.content
+  commit_message      = "config from terraform"
+  commit_email        = "krzysztof.szadkowski@gmail.com"
+  commit_author       = "Chris"
+  overwrite_on_create = true
+}
+
 resource "github_repository_file" "script_js" {
   repository = data.github_repository.repo.name
   branch = "main"
@@ -28,6 +39,18 @@ resource "github_repository_file" "script_js" {
   commit_author = "Chris"
   overwrite_on_create = true
 }
+
+resource "github_repository_file" "script_js_dev" {
+  repository = data.github_repository.repo.name
+  branch = "dev"
+  file = "webpage/js/script.js"
+  content = resource.local_file.jsfile.content
+  commit_message = "script.js from terraform"
+  commit_email = "krzysztof.szadkowski@gmail.com"
+  commit_author = "Chris"
+  overwrite_on_create = true
+}
+
 
 resource "github_actions_variable" "cloudfront_id" {
   repository = data.github_repository.repo.name
