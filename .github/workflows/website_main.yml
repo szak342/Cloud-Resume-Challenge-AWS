@@ -36,7 +36,7 @@ jobs:
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Test with pytest
       run: |
-        pytest Tests/webpage/webpage-test.py
+        pytest Tests/webpage/webpage_test.py
     - name: Sync files with s3 bucket
       run: aws s3 sync webpage/ "s3://${{ vars.S3BUCKET }}" --delete
     - name: Invalidate Cloud Front cache
