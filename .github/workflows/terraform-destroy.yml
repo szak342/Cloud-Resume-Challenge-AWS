@@ -1,4 +1,4 @@
-name: Terraform Production Deployment
+name: Terraform Destruction
 
 on:
   workflow_dispatch:
@@ -31,9 +31,4 @@ jobs:
 
       - name: AWS Commands
         run: |
-          cd terraform/
-          terraform init
-          terraform plan
-      - name: Terraform Apply
-        run: |
-          cd terraform/ && terraform apply -auto-approve
+          cd terraform/ && terraform destroy --auto-approve
