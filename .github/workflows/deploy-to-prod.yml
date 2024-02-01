@@ -15,10 +15,10 @@ jobs:
     runs-on: ubuntu-latest
     env: 
       AWS_DEFAULT_REGION: eu-west-1
-      TF_VAR_TOKEN: ${{ secrets.TF_VAR_TOKEN }}
-      TF_VAR_DOMAIN_NAME: ${{ secrets.TF_VAR_DOMAIN_NAME }}
-      TF_VAR_ACM_ARN: ${{ secrets.TF_VAR_ACM_ARN }}
-      TF_VAR_BACKEND: ${{ secrets.TF_VAR_BACKEND }}
+      TF_VAR_TOKEN: ${{ secrets.TOKEN }}
+      TF_VAR_DOMAIN_NAME: ${{ secrets.DOMAIN_NAME }}
+      TF_VAR_ACM_ARN: ${{ secrets.ACM_ARN }}
+      TF_VAR_BACKEND: ${{ secrets.BACKEND }}
     steps:
       - name: checkout git repo
         uses: actions/checkout@v3
