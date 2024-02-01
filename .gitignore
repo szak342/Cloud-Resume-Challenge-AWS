@@ -10,3 +10,5 @@ terraform.tfstate.backup
 terraform.tfvars
 resume
 secrets.tf
+.env
+load_dotenv.sh

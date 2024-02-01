@@ -1,0 +1,30 @@
+name: Terraform Production Deployment
+
+on:
+  workflow_dispatch:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  issuses: write
+  id-token: write
+
+jobs:
+  cloud-resume-deploy:
+    runs-on: ubuntu-latest
+    env: 
+      AWS_DEFAULT_REGION: eu-west-1
+    steps:
+      - name: checkout git repo
+        uses: actions/checkout@v3
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+          role-session-name: GitHub_to_AWS_via_FederatedOIDC
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: AWS Commands
+        run: |
+          aws s3 ls 

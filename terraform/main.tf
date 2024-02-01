@@ -11,11 +11,12 @@ terraform {
  
   required_version = ">= 1.7.0" # Backend for .tfstate
   backend "s3" {
-    bucket = var.BACKEND
+    bucket = "main-bucket-28357"
     key    = "terraform/resume.tfstate"
     region = "eu-west-1"
   }
 }
+
 
 provider "aws" {
   region = "eu-west-1"
