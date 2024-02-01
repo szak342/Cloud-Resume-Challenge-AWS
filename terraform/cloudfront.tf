@@ -10,7 +10,7 @@ resource "aws_cloudfront_distribution" "resume_cf_distribution" {
   comment             = "Terraform Cloud Front Distribution"
   default_root_object = "index.html"
 
-  aliases = ["www.${var.domain_name}", "${var.domain_name}"]
+  aliases = ["www.${var.DOMAIN_NAME}", "${var.DOMAIN_NAME}"]
 
   default_cache_behavior {
     allowed_methods  = ["GET", "HEAD"]
@@ -66,7 +66,7 @@ resource "aws_cloudfront_origin_access_identity" "resume_cf" {
 
 
 data "aws_route53_zone" "myzone" {
-  name = "krzysztofszadkowski.com"
+  name = var.DOMAIN_NAME
 }
 
 resource "aws_route53_record" "www-a-apex" {

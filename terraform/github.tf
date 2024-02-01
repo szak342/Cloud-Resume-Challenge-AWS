@@ -52,28 +52,28 @@ resource "github_repository_file" "script_js_dev" {
 }
 
 
-resource "github_actions_variable" "cloudfront_id" {
+resource "github_actions_secret" "cloudfront_id" {
   repository = data.github_repository.repo.name
-  variable_name = "CLOUDFRONT_ID"
-  value = aws_cloudfront_distribution.resume_cf_distribution.id
+  secret_name = "CLOUDFRONT_ID"
+  plaintext_value = aws_cloudfront_distribution.resume_cf_distribution.id
 }
 
-resource "github_actions_variable" "cloudfront_url" {
+resource "github_actions_secret" "cloudfront_url" {
   repository = data.github_repository.repo.name
-  variable_name = "CLOUDFRONT_URL"
-  value = aws_cloudfront_distribution.resume_cf_distribution.domain_name
+  secret_name = "CLOUDFRONT_URL"
+  plaintext_value = aws_cloudfront_distribution.resume_cf_distribution.domain_name
 }
 
-resource "github_actions_variable" "s3bucket" {
+resource "github_actions_secret" "s3bucket" {
   repository = data.github_repository.repo.name
-  variable_name = "S3BUCKET"
-  value = aws_s3_bucket.resume-bucket.id
+  secret_name = "S3BUCKET"
+  plaintext_value = aws_s3_bucket.resume-bucket.id
 }
 
-resource "github_actions_variable" "invoke_url" {
+resource "github_actions_secret" "invoke_url" {
   repository = data.github_repository.repo.name
-  variable_name = "API_INVOKE_URL"
-  value = aws_api_gateway_deployment.deployment.invoke_url
+  secret_name = "API_INVOKE_URL"
+  plaintext_value = aws_api_gateway_deployment.deployment.invoke_url
 }
 
 

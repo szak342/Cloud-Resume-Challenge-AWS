@@ -2,12 +2,13 @@ import pytest
 import requests
 from requests_html import HTMLSession
 
-url = ["https://krzysztofszadkowski.com", "https://www.krzysztofszadkowski.com"]
+DOMAIN_NAME = os.environ["DOMAIN_NAME"]
 
+urls = [f"https://{DOMAIN_NAME}", f"https://www.{DOMAIN_NAME}"]
 
 
 def test_lambda_on_webpage():
-    for site in url:
+    for site in urls:
         r = requests.get(site)
         assert r.status_code == 200
 
@@ -20,9 +21,8 @@ def get_org_counter(url):
     return int(y.text)
 
 def test_visit_counter_on_webpage():
-    url = "https://krzysztofszadkowski.com"
 
-    org_counter = get_org_counter(url)
+    org_counter = get_org_counter(urls[0])
 
     counter = org_counter
 

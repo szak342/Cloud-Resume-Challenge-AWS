@@ -16,6 +16,10 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      DOMAIN_NAME: ${{ secrets.DOMAIN_NAME }}
+      APP_ID: ${{ secrets.DEV_APP_ID }}
+      GIT_TOKEN: ${{ secrets.GIT_TOKEN}}
     steps:
     - name: Checkout
       uses: actions/checkout@v3
@@ -41,9 +45,9 @@ jobs:
       run: |
         pytest Tests/webpage/webpage_test.py
     - name: Sync files with s3 bucket
-      run: aws s3 sync webpage/ "s3://${{ vars.S3BUCKET }}" --delete
+      run: aws s3 sync webpage/ "s3://${{ secrets.S3BUCKET }}" --delete
     - name: Invalidate Cloud Front cache
-      run: aws cloudfront create-invalidation --distribution-id ${{ vars.CLOUDFRONT_ID }} --paths "/*"
+      run: aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_ID }} --paths "/*"
     - name: Webpage lambda test
       run: |
         pytest Tests/webpage/webpage-lambda-test.py
