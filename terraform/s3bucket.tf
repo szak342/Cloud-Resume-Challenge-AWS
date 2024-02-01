@@ -3,7 +3,7 @@ resource "aws_s3_bucket" "resume-bucket" {
     force_destroy = true
     tags = {
         Name = "resume-bucket"
-        Environment = "Dev"
+        Environment = "Prod"
     }
 }
 
