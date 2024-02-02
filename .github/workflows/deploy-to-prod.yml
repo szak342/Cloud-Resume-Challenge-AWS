@@ -1,0 +1,44 @@
+name: Terraform Production Deployment
+
+on:
+  workflow_dispatch:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  issues: write
+  id-token: write
+
+jobs:
+  cloud-resume-deploy:
+    runs-on: ubuntu-latest
+    env: 
+      AWS_DEFAULT_REGION: eu-west-1
+      TF_VAR_TOKEN: ${{ secrets.TOKEN }}
+      TF_VAR_DOMAIN_NAME: ${{ secrets.DOMAIN_NAME }}
+      TF_VAR_ACM_ARN: ${{ secrets.ACM_ARN }}
+      TF_VAR_BACKEND: ${{ secrets.BACKEND }}
+    steps:
+      - name: checkout git repo
+        uses: actions/checkout@v3
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+          role-session-name: GitHub_to_AWS_via_FederatedOIDC
+          aws-region: ${{ env.AWS_DEFAULT_REGION }}
+
+      - name: AWS Commands
+        run: |
+          cd terraform/
+          terraform init
+          terraform plan
+      - name: Terraform Apply
+        run: |
+          cd terraform/ && terraform apply -auto-approve
