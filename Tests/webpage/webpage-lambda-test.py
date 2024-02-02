@@ -1,6 +1,7 @@
 import pytest
 import requests
 from requests_html import HTMLSession
+import os
 
 DOMAIN_NAME = os.environ["DOMAIN_NAME"]
 
@@ -28,7 +29,7 @@ def test_visit_counter_on_webpage():
 
     for i in range(2):
         session = HTMLSession()
-        r = session.get(url)
+        r = session.get(urls[i])
         r.html.render(sleep=3)
         x = r.html.find("span#show", first=True)
         counter += int(x.text)
