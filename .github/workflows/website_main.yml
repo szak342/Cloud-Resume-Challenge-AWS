@@ -1,10 +1,6 @@
 name: WebsiteMain
 
 on:
-  push:
-    branches: [ "main" ]
-    paths:
-      - webpage/**
   pull_request:
     branches: [ "main" ]
     paths:
@@ -23,11 +19,14 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v3
+    
     - name: Configure AWS Credentials
-      uses: szak342/cloud_resume_challenge_aws/.github/actions/configure_aws_credentials@main
+      uses: aws-actions/configure-aws-credentials@v4
       with:
-        secret_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: eu-west-1
+  
     - name: Set up Python 3.11
       uses: actions/setup-python@v3
       with:
