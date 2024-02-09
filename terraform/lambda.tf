@@ -37,7 +37,7 @@ resource "null_resource" "build-lambda" { # Building Lambda package from script
 
  provisioner "local-exec" {
 
-    command = "/bin/bash script.sh"
+    command = "/bin/bash script.sh sam-app"
   }
 }
 
