@@ -1,19 +1,24 @@
 variable "TOKEN" {
-  type = string
+  type      = string
   sensitive = true
 }
 
 variable "BACKEND" {
-  type = string
+  type      = string
   sensitive = true
 }
 
 variable "DOMAIN_NAME" {
-  type = string
+  type      = string
   sensitive = true
 }
 
 variable "ACM_ARN" {
-  type = string
+  type      = string
   sensitive = true
+}
+
+variable "EMAIL" {
+  type      = string
+  sensitive = false
 }
