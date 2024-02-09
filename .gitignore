@@ -1,8 +1,9 @@
 .terraform/
 scratch.tf
 resumelambda.zip
+streams_lambda.zip
 sam-app/.aws-sam/
-sam-resume/
+streams-app/.aws-sam/
 backup
 venv
 terraform.tfstate
@@ -12,3 +13,4 @@ resume
 secrets.tf
 .env
 load_dotenv.sh
+scratch.json
