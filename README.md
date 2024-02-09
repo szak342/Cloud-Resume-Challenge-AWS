@@ -23,9 +23,12 @@ The Cloud Resume Challenge is a project that aims to demonstrate proficiency in 
   - ACM (AWS Certificate Manager) for managing SSL certificates
   - Route 53 for domain registration and DNS
   - DynamoDB for storing visit counter data
+  - DynamoDB Streams for sending data to Lambda function
+  - SNS for sending notifications
   - API Gateway for exposing API
   - Lambda for serverless function
   - AWS SAM for deploying Lambda function
+  - Amazon WorkMail for email hosting
   
 - **Others::**
   - Python Pytest for testing
