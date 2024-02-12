@@ -87,6 +87,11 @@ data "aws_iam_policy_document" "lambda_to_sns_policy" {
     actions   = ["sns:Publish"]
     resources = ["${aws_sns_topic.visit_couter.arn}"]
   }
+    statement {
+    effect    = "Allow"
+    actions = ["logs:CreateLogGroup", "logs:CreateLogStream", "logs:PutLogEvents"]
+    resources = ["*"]
+  }
 }
 
 resource "aws_iam_role_policy" "dynamodb_read_log_policy" {
