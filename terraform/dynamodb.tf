@@ -23,7 +23,24 @@ resource "aws_dynamodb_table_item" "example" {
   item = <<ITEM
 {
   "id": {"S": "Counter"},
-  "count": {"N": "0"}
+  "count": {"S": "0"}
 }
 ITEM
+}
+
+resource "aws_dynamodb_table" "resume-dynamodb-connection-ids" {
+  name         = "connection-ids"
+  billing_mode = "PAY_PER_REQUEST"
+  hash_key     = "connection_id"
+
+
+  attribute {
+    name = "connection_id"
+    type = "S"
+  }
+  server_side_encryption { enabled = true }
+  tags = {
+    Name        = "dynamodb-resume-table-websockets-connection-ids"
+    Environment = "dev"
+  }
 }

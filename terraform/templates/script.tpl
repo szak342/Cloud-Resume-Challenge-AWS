@@ -1,8 +1,18 @@
-function getData() {
-    fetch("${invoke_url}/dev")
-    .then(res => res.json())
-    .then(data => document.getElementById("show").innerHTML = data.message)
-    .catch(error => console.log("Error: ", error))
-};
+const url = "${invoke_url}";
+const socket = new WebSocket(url);
 
-getData()
+  socket.addEventListener('open', (event) => {
+    console.log('WebSocket connection opened.');
+  });
+
+  socket.addEventListener('message', (event) => { 
+    document.getElementById("show").innerHTML = event.data;
+  });
+
+  socket.addEventListener('close', (event) => {
+    console.log('WebSocket connection closed.');
+  });
+
+  socket.addEventListener('error', (error) => {
+    console.error('WebSocket error:', error);
+  });

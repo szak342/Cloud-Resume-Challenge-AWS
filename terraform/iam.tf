@@ -28,10 +28,6 @@ resource "aws_iam_policy" "lambda_exec_role" {
 POLICY
 }
 
-resource "aws_iam_role_policy_attachment" "lambda_policy" {
-  role       = aws_iam_role.lambda_exec.name
-  policy_arn = aws_iam_policy.lambda_exec_role.arn
-}
 
 data "aws_iam_policy_document" "allow_access_from_cloud_front" {
   statement {
@@ -56,6 +52,20 @@ data "aws_iam_policy_document" "allow_access_from_cloud_front" {
   }
 }
 
+data "aws_iam_policy_document" "lambda_to_sns_policy" {
+  statement {
+    effect    = "Allow"
+    actions   = ["sns:Publish"]
+    resources = ["${aws_sns_topic.visit_counter.arn}"]
+  }
+  statement {
+    effect    = "Allow"
+    actions = ["logs:CreateLogGroup", "logs:CreateLogStream", "logs:PutLogEvents"]
+    resources = ["*"]
+  }
+}
+
+
 resource "aws_iam_role" "lambda_assume_role" {
   name               = "lambda-dynamodb-role"
   assume_role_policy = <<EOF
@@ -79,19 +89,6 @@ EOF
     policy = data.aws_iam_policy_document.lambda_to_sns_policy.json
   }
 
-}
-
-data "aws_iam_policy_document" "lambda_to_sns_policy" {
-  statement {
-    effect    = "Allow"
-    actions   = ["sns:Publish"]
-    resources = ["${aws_sns_topic.visit_couter.arn}"]
-  }
-    statement {
-    effect    = "Allow"
-    actions = ["logs:CreateLogGroup", "logs:CreateLogStream", "logs:PutLogEvents"]
-    resources = ["*"]
-  }
 }
 
 resource "aws_iam_role_policy" "dynamodb_read_log_policy" {
@@ -126,3 +123,8 @@ resource "aws_iam_role_policy" "dynamodb_read_log_policy" {
 }
 EOF
 }
+
+
+
+
+
