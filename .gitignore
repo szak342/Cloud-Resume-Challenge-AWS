@@ -4,6 +4,7 @@ resumelambda.zip
 streams_lambda.zip
 sam-app/.aws-sam/
 streams-app/.aws-sam/
+sam-resume/
 backup
 venv
 terraform.tfstate
@@ -14,3 +15,8 @@ secrets.tf
 .env
 load_dotenv.sh
 scratch.json
+.aws-sam/
+websockets_lambda.zip
+websockets_lambda_response.zip
+__pycache__
+.pytest_cache
