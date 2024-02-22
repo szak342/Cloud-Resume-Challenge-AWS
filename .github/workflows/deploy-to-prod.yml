@@ -34,7 +34,13 @@ jobs:
           role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
           role-session-name: GitHub_to_AWS_via_FederatedOIDC
           aws-region: ${{ env.AWS_DEFAULT_REGION }}
-
+      - name: Setup AWS SAM CLI          
+        uses: aws-actions/setup-sam@v2
+      - name: build aws lambda
+        run: |
+          cd websockets-app/ && sam build
+      - name: build aws streams-lambda
+          cd websockets-response-app/ && sam build
       - name: AWS Commands
         run: |
           cd terraform/

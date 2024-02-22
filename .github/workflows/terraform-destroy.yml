@@ -31,12 +31,12 @@ jobs:
         with:
           python-version: "3.11"
           cache: pip
-      - name: build aws lambda # TESTING
+      - name: build aws lambda
         run: |
-          cd sam-app/ && sam build
-      - name: build aws streams-lambda # TESTING
+          cd websockets-app/ && sam build
+      - name: build aws websockets-app
         run: |
-          cd streams-app/ && sam build
+          cd websockets-response-app/ && sam build
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:

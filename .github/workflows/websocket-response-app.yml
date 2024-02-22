@@ -1,14 +1,14 @@
-name: Python application
+name: Websockets Response Lambda
 
 on:
   push:
     branches: [ "main" ]
     paths:
-      - sam-app/app/**
+      - websockets-response-app/app/**
   pull_request:
     branches: [ "main" ]
     paths:
-      - sam-app/app/**
+      - websockets-response-app/app/**
 
 permissions:
   contents: read
@@ -28,37 +28,20 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install pytest moto[mock_dynamodb2] boto3 python-env
+        pip install pytest moto[all] boto3 python-env websockets
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Test with pytest
       run: |
-        pytest Tests/lambda-test/app-test.py
+        pytest Tests/websockets/websockets-response-test.py
     - name: Validate SAM template
-      run: cd sam-app/ && sam validate
+      run: cd websockets-response-app/ && sam validate
     - name: Build sam-app
-      run: cd sam-app/ && sam build
+      run: cd websockets-response-app/ && sam build
     - name: Deploy to Lambda
       uses: appleboy/lambda-action@v0.1.9
       with:
         aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws_region: eu-west-1
-        function_name: resume-lambda
-        source: sam-app/.aws-sam/build/resumelambda/*
-        
-
-
-
-
-
-
-
-
-
-
-
-
-    
-    
-    
-    
+        function_name: websocket-lambda-response
+        source: websockets-response-app/.aws-sam/build/websocketsResponseLambda/*
